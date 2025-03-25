@@ -72,3 +72,7 @@ instead of
 ```lua
 player:CanAdoptPolicy(GameInfo.Policies["POLICY_KNOWLEDGE_1"].ID)
 ```
+
+## Publishing
+
+See [publishing.md](publishing.md)
