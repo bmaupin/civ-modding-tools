@@ -1,15 +1,17 @@
+# Civ modding tools
+
+📌 [See my other Civ projects here](https://github.com/search?q=user%3Abmaupin+topic%3Acivilization&type=Repositories)
+
 Various modding documentation and tools for modding different versions of Sid Meier's Civilization
 
-<!--
+## Specific games
 
- ## Specific versions of Civilization
-
+- [Alpha Centauri](./alpha-centauri/)
+- [Civilization 4](./civilization-4/)
 - [Civilization 5](./civilization-5/)
 - [Beyond Earth](./civilization-beyond-earth/)
 
--->
-
-## All versions of Civilization
+## General
 
 #### References
 

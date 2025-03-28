@@ -53,7 +53,31 @@ To reload changes to the mod without exiting Beyond Earth:
 
    ⓘ The mod should be unchecked to show that it has changed. If the mod was previously unchecked and you're not sure if the mod has been updated, you can check the box to enable the mod, run the command again, and you you should see that the mod is unchecked when it's been updated.
 
+If the above steps don't work, i.e. you delete the mod directory and the mod is still showing up as checked in the Mods menu, this has been observed for mods that are bigger or have a lot of files (not sure which).
+
+In that case, go into the _DLC_ menu and make any change, which will force mods to be reloaded. For example, enabling or disabling the Exoplanets Map Pack DLC may work well (if your mod doesn't depend on that DLC).
+
 ## Troubleshooting
+
+#### Game crashes while developing a mod
+
+If this happens, the most common error is a problem with your mod.
+
+1. Check the logs, especially Lua.log if you're writing Lua
+
+1. Add logging to the Lua code
+
+   ```
+   print("(Beyond Earth Eclipse) showing popup for transgenics")
+   ```
+
+   👉 One sign that the error is in the Lua is if you add logging and you don't see it in Lua.log. Often the code will fail silently.
+
+1. Check the Lua code for errors
+
+   AI in particular can often recommend bad code
+
+👉 If there is a Lua error, Beyond Earth may not crash the first time a game is started or loaded, but a Lua error in that game will often cause the next game that's started or loaded to crash. As mentioned above, this can happen even if there are no errors in Lua.log.
 
 #### Game crashes after Lua error in previous game
 
