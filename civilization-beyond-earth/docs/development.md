@@ -55,7 +55,9 @@ To reload changes to the mod without exiting Beyond Earth:
 
 If the above steps don't work, i.e. you delete the mod directory and the mod is still showing up as checked in the Mods menu, this has been observed for mods that are bigger or have a lot of files (not sure which).
 
-In that case, go into the _DLC_ menu and make any change, which will force mods to be reloaded. For example, enabling or disabling the Exoplanets Map Pack DLC may work well (if your mod doesn't depend on that DLC).
+In that case, go into the _DLC_ menu and unload and reload one of the DLC in order to force the mod to reload the latest changes.
+
+⚠️ Make sure if you're loading a save game to test the mod that you have the same DLC loaded that the save was created with, otherwise Beyond Earth will crash as per https://github.com/bmaupin/civ-be-linux-fixes/?tab=readme-ov-file#the-game-crashes-loading-a-saved-game-with-mods-and-different-dlc
 
 ## Troubleshooting
 
