@@ -1,5 +1,69 @@
 # API
 
+#### Controls (UI)
+
+e.g. `Controls.Button:GetSizeX()`
+
+```
+:BuildEntry()
+:CalculateInternals()
+:CalculateInternalSize()
+:CalculateSize()
+:ChangeParent()
+:ClearCallback()
+:ClearEntries()
+:DestroyAllChildren()
+:DoAutoSize()
+:GetButton()
+:GetOffsetVal()
+:GetOffsetX()
+:GetOffsetY()
+:GetScrollValue()
+:GetSizeVal()
+:GetSizeX()
+:GetSizeY()
+:GetText()
+:IsChecked()
+:IsHidden()
+:IsReversing()
+:IsStopped()
+:LocalizeAndSetText()
+:LocalizeAndSetToolTip()
+:Play()
+:RegisterCallback()
+:RegisterCharCallback()
+:RegisterCheckHandler()
+:RegisterDownEndCallback()
+:RegisterSelectionCallback()
+:RegisterSliderCallback()
+:RegisterUpEndCallback()
+:ReprocessAnchoring()
+:Reverse()
+:SetAlpha()
+:SetCheck()
+:SetColor()
+:SetColorByName()
+:SetDisabled()
+:SetEndVal()
+:SetHide()
+:SetMapSize()
+:SetOffsetVal()
+:SetOffsetY()
+:SetScrollValue()
+:SetSizeVal()
+:SetSizeX()
+:SetSizeY()
+:SetText()
+:SetTexture()
+:SetTextureOffset()
+:SetToBeginning()
+:SetToolTipString()
+:SetVoid1()
+:SetWrapWidth()
+:SortChildren()
+:UnloadTexture()
+```
+
 #### GameEvents
 
 ```
@@ -72,8 +136,6 @@ objective:GetQuest()
 objective:GetSummary()
 objective:GetType()
 objective:IsInProgress()
-objective:ShowObjectiveReceivedPopup()
-objective:ShowUpdateNotification()
 ```
 
 ⚠️ Be careful with these; they may cause the game to crash
@@ -89,6 +151,8 @@ objective:SetPromptOptionB()
 objective:SetPromptOptionC()
 objective:SetSuccessConditionsMet()
 objective:SetSummary()
+objective:ShowObjectiveReceivedPopup()
+objective:ShowUpdateNotification()
 objective:Succeed()
 ```
 
