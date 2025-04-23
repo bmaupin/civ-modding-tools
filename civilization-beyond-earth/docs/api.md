@@ -1,5 +1,41 @@
 # API
 
+## General
+
+#### Deriving API from game source
+
+1. CD to game source
+
+1. Get API calls, e.g.
+
+   ```
+   find . -iname "*.lua" -exec egrep -o "quest:.*" "{}" \; | cut -d '(' -f 1 | less | sort -u
+   ```
+
+#### Deriving API from game core libraries
+
+1. CD to game directory
+
+1. Get Lua API calls, e.g.
+
+   ```
+   strings libCvGameCoreDLL_Expansion1.so | grep ^CvLua | grep "::" | grep -i quest | sort -u | cut -c 6- | sed 's/::l/:/'
+   ```
+
+👉 There are a lot of functions like this in the game core libraries, but they seem to be C++ functions that aren't exposed to Lua:
+
+```
+CvQuest::GetPlayer
+```
+
+The Lua functions look like this:
+
+```
+CvLuaQuest::lGetOwner
+```
+
+## APIs
+
 #### Controls (UI)
 
 e.g. `Controls.Button:GetSizeX()`
