@@ -151,55 +151,6 @@ GameEvents.UnitKilled
 GameEvents.UnitSetXY
 ```
 
-From game core library:
-
-```
-Sid Meier's Civilization Beyond Earth$ strings libCvGameCoreDLL_Expansion1.so | grep GCEvent:: | sort -u | sed 's/GCEvent::/GameEvents./'
-GameEvents.AffinityLevelChanged
-GameEvents.AlienNestAttacked
-GameEvents.AlienNestCreated
-GameEvents.AlienNestDestroyed
-GameEvents.BuildFinished
-GameEvents.BuildingProcessed
-GameEvents.CityAcquired
-GameEvents.CityCreated
-GameEvents.CityKilled
-GameEvents.CityMoved
-GameEvents.CityPlotAdded
-GameEvents.CovertAgentArrivedInCity
-GameEvents.CovertAgentCompletedOperation
-GameEvents.CovertAgentRecruited
-GameEvents.DeclaredWar
-GameEvents.DiplomacyRelationshipChanged
-GameEvents.EarthlingSettlement
-GameEvents.GoodyExplored
-GameEvents.HeroLandmarkVisible
-GameEvents.LandmarkAction
-GameEvents.MadePeace
-GameEvents.OrbitalUnitLaunched
-GameEvents.OutpostFounded
-GameEvents.OutpostPlotAcquired
-GameEvents.PersonalityTraitAdded
-GameEvents.PersonalityTraitRemoved
-GameEvents.PlayerPerksChanged
-GameEvents.PolicyProcessed
-GameEvents.ProjectProcessed
-GameEvents.StationDestroyed
-GameEvents.StationRevealed
-GameEvents.StationWithdrawn
-GameEvents.TechProcessed
-GameEvents.TradeRouteCancelled
-GameEvents.TradeRouteCircuitCompleted
-GameEvents.TradeRouteCompleted
-GameEvents.TradeRouteCreated
-GameEvents.TradeRouteDestroyed
-GameEvents.UnitAttacked
-GameEvents.UnitCreated
-GameEvents.UnitKilled
-GameEvents.UnitPerksChanged
-GameEvents.UnitSetXY
-```
-
 #### objective
 
 ```
