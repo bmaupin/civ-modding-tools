@@ -151,6 +151,30 @@ GameEvents.UnitKilled
 GameEvents.UnitSetXY
 ```
 
+Other game events; found by searching game core library for calls to `LuaSupport::CallHook`:
+
+```
+GameEvents.CityKilled
+GameEvents.CityMoved
+GameEvents.GameCoreUpdateEnd
+GameEvents.GameCoreTestVictory
+GameEvents.GatherPerTurnReplayStats
+GameEvents.PersonalityTraitAdded
+GameEvents.PersonalityTraitRemoved
+GameEvents.PlayerAdoptPolicyBranch
+GameEvents.PlayerAdoptPolicy
+GameEvents.PlayerFoundStation
+GameEvents.PlayerPreAIUnitUpdate
+GameEvents.SetAlly
+GameEvents.StationTradeRouteCircuitCompleted
+GameEvents.StationTradeRouteCompleted
+GameEvents.TeamMeet
+GameEvents.TeamSetHasTech
+GameEvents.UnitGetSpecialExploreTarget
+GameEvents.UnitKilledInCombat
+GameEvents.WonderSiteDestroyed
+```
+
 #### objective
 
 ```
