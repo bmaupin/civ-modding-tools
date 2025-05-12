@@ -32,18 +32,32 @@ https://partner.steamgames.com/doc/features/workshop/implementation
    - Existing preview images appear to be square, so this is probably best
    - Steam recommends JPG, PNG and GIF
 
+1. Browse the Steam workshop to figure out which tags to use
+
+   1. Go here: https://steamcommunity.com/app/65980/workshop/
+
+   1. On the right look under _Browse By Tag_ to see available tags
+
 1. Upload the mod to Steam
 
    ⓘ It appears that steamcmd's `workshop_build_item` parameter only works with games that use Steam's newer UGC storage. Using it with Beyond Earth will result in an error. steamcmd does have another parameter (`workshop_create_legacy_item`) for older Steam games using the legacy storage (remote storage), however this seems to only work for the initial file upload and not updates.
 
    1. Download steamremotestorage-uploader
 
-      https://github.com/nnnn20430/steamremotestorage-uploader/releases
+      https://github.com/bmaupin/steamremotestorage-uploader/releases
 
    1. Extract steamremotestorage-uploader
 
       ```
-      tar xvf steamremotestorage-uploader-v1.0.tar.xz
+      tar xvf steamremotestorage-uploader-v1.1.tar.xz
+      ```
+
+   1. Copy it to the path, e.g. `~/bin`
+
+   1. Update the rpath so it can be run from anywhere
+
+      ```
+      patchelf --set-rpath "$PWD" steamremotestorage-uploader
       ```
 
    1. Start Steam
@@ -55,8 +69,7 @@ https://partner.steamgames.com/doc/features/workshop/implementation
       e.g.
 
       ```
-      cd steamremotestorage-uploader/amd64
-      ./steamremotestorage-uploader -a 65980 -t "Micro Beyond Earth" -f /path/to/Micro\ Beyond\ Earth\ \(v\ 1\).civbemod -p /path/to/preview.png -n "v1: Initial release"
+      steamremotestorage-uploader -a 65980 -t "Mini Beyond Earth" -tags "Gameplay,Maps" -f "mini beyond earth (v 13).civbemod" -p /path/to/preview.png -n "v1: Initial release"
       ```
 
 1. Later, upload screenshots
@@ -65,9 +78,7 @@ https://partner.steamgames.com/doc/features/workshop/implementation
 
 ## Troubleshooting
 
-#### `Item upload failed: 21`
-
-Updating an existing mod normally goes quickly, but sometimes it takes a while and throws this error. If it happens, close and reopen Steam and try again.
+👉 See also: [https://github.com/bmaupin/steamremotestorage-uploader?tab=readme-ov-file#troubleshooting](https://github.com/bmaupin/steamremotestorage-uploader?tab=readme-ov-file#troubleshooting)
 
 #### Mod doesn't install after uploading it to Steam
 
