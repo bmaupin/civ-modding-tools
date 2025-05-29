@@ -8,7 +8,7 @@
 
 1. Go to _Extensions_, search for Lua, and install the _Lua_ extension by _sumneko_
 1. Go to _File_ > _Preferences_ > _Settings_
-1. Search for `lua` and configure the Lua extension as desired; here's my current user configuration (folder configuration is in [../.vscode/settings.json](../.vscode/settings.json)):
+1. Search for `lua` and configure the Lua extension as desired; here's my current user configuration:
    ```jsonc
    // Make it so that the Lua extension only diagnoses the currently open file instead of the entire workspace
    "Lua.workspace.maxPreload": 0,
