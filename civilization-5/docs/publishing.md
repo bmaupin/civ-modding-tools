@@ -69,8 +69,20 @@ https://partner.steamgames.com/doc/features/workshop/implementation
       e.g.
 
       ```
-      steamremotestorage-uploader -a 8930 -t "Mini Civ 5" -tags "Gameplay,Maps" -f "mini civ 5 (v 1).civ5mod" -p /path/to/preview.png -n "v1: Initial release"
+      steamremotestorage-uploader -a 8930 -t "Mini Civ 5" -tags "Gameplay,Maps" -f "mini civ 5 (v 1).civ5mod" -p /path/to/preview.png
       ```
+
+   1. Make a note of the item ID
+
+   1. Go to the mod in your browser using the item ID, e.g.
+
+      https://steamcommunity.com/sharedfiles/filedetails/?id=3489957747
+
+   1. Change the visibility as desired (it will be hidden by default)
+
+   1. (Optional) Add release notes for the first release
+
+      The Steam API doesn't support release notes when creating an item, so add release notes if you'd like (e.g. _v1: Initial release_)
 
 1. Later, upload screenshots
 
