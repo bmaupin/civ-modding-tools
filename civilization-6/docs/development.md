@@ -15,7 +15,15 @@
 
 #### Reload mod changes without exiting the game
 
-TODO
+1. Make changes to your mod as needed (can be done before or after starting a match)
+   1. (Recommended) During development, update the description somehow so you know it's been updated (e.g. add a timestamp)
+1. Start a new match in Civ 6
+1. When you exit the match, the game will load any changes to mods
+
+⚠️ If you get an _Error Starting Game_ popup when starting a match, starting a new match will cause the game to freeze. If this happens:
+
+1. Exit Civ 6
+1. Check the logs (see _Troubleshooting_ below) and fix your mod as needed
 
 #### Troubleshooting
 
