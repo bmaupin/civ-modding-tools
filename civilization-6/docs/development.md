@@ -46,3 +46,7 @@ Check these logs in ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs:
   [1010254.528] [Gameplay] ERROR: Invalid Reference on FavoredReligions.ReligionType - "RELIGION_ZOROASTRIANISM" does not exist in Religions
   [1010254.528] [Gameplay]: Failed Validation.
   ```
+
+#### _Error - One or more of the startup sripts has an error. See lua.log_
+
+In my case, I couldn't actually find a lua.log file, but this was caused because I was using a map size that was too small and triggering errors in the game engine.
