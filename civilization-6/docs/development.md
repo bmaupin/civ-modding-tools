@@ -20,12 +20,19 @@
 1. Start a new match in Civ 6
 1. When you exit the match, the game will load any changes to mods
 
-⚠️ If you get an _Error Starting Game_ popup when starting a match, starting a new match will cause the game to freeze. If this happens:
+## Troubleshooting
 
+### _Error Starting Game_ popup
+
+If you get an _Error Starting Game_ popup, starting or loading any game after that point will cause Civ 6 to freeze.
+
+If you see this popup:
+
+1. Read the message in the popup and follow the appropriate steps below
 1. Exit Civ 6
-1. Check the logs (see _Troubleshooting_ below) and fix your mod as needed
+1. Fix the issue and try again
 
-#### Troubleshooting
+#### _Error - One or more Mods failed to load content._
 
 Check these logs in ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs:
 
