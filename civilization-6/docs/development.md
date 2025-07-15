@@ -20,6 +20,10 @@
 1. Start a new match in Civ 6
 1. When you exit the match, the game will load any changes to mods
 
+#### In-game databases
+
+The in-game databases are cached in the user directory (e.g. ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Cache) and can be opened with an SQLite browser to browse database structure, run queries for testing, etc.
+
 ## Troubleshooting
 
 ### _Error Starting Game_ popup
@@ -30,6 +34,7 @@ If you see this popup:
 
 1. Read the message in the popup and follow the appropriate steps below
 1. Exit Civ 6
+   - Civ 6 may not exit so you may need to click _Stop_ in Steam
 1. Fix the issue and try again
 
 #### _Error - One or more Mods failed to load content._
@@ -49,4 +54,6 @@ Check these logs in ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs:
 
 #### _Error - One or more of the startup sripts has an error. See lua.log_
 
-In my case, I couldn't actually find a lua.log file, but this was caused because I was using a map size that was too small and triggering errors in the game engine.
+⚠️ On Linux, it appears that lua.log is not generated: https://steamcommunity.com/app/289070/discussions/0/144512942755435118/?ctp=183#c2942495544689782750
+
+In my case, this was caused because I was using a map size that was too small and triggering errors in the game engine.
