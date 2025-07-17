@@ -14,9 +14,72 @@ The aforementioned June update was released 2020-06-25, and the August update wa
 
 - [x] Check Windows binary; Steam depot: https://steamdb.info/depot/289072/
 - [x] Check older/oldest Linux binary; Steam depot: https://steamdb.info/depot/533502/
+- [x] Test `EnableGameCoreEventLog`
+- [x] Test `EnableLogCollection`
+- [x] Create `Lua.log` manually
+- [x] Run in gdb to see if LogAt is even called; maybe that's the issue?
+- [ ] Compare invocations of Platform::LogEvent
+- [ ] LogEvent is called by LogAt; what is calling LogAt? Check invocation site for parameters, etc
+- [ ] Check
 - [ ] Compare differences between older and latest Linux binaries
-- [ ] Test `EnableGameCoreEventLog`
-- [ ] Test `EnableLogCollection`
+
+#### Key points
+
+- Lua.log seems to be created by the function `LuaSystem::LuaScriptSystem::LogAt`
+  - LogAt does not get called in the latest game binary
+- Lua.log is created in the game binary from manifest 4494595049480381275
+  - LogAt does get called in this binary!
+  - This message gets logged:
+    ```
+    DebugHotloadCache: GameDebug initialized!
+    ```
+    - This is just the output of a print message in one of the Lua files (debughotloadcache.lua)
+
+#### gdb
+
+1. Get name of function
+
+   ```
+   $ strings Civ6 | grep LogAt
+   _ZN9LuaSystem15LuaScriptSystem5LogAtEijPKcz
+   ```
+
+1. Start game with gdb
+
+   ```
+   gdb Civ6
+   (gdb) break _ZN9LuaSystem15LuaScriptSystem5LogAtEijPKcz
+   Breakpoint 1 at 0x3bfd6fa
+   (gdb) start
+   # after first breakpoint (automatic for main function?)
+   (gdb) c
+   ```
+
+Backtrace:
+
+```
+#0  0x00000000020e2592 in LuaSystem::LuaScriptSystem::LogAt(int, unsigned int, char const*, ...) ()
+#1  0x00000000020e3a79 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
+#2  0x00000000020e2489 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
+#3  0x00000000020a63f8 in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
+#4  0x00000000020b887b in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int)
+    ()
+#5  0x000000000207c6a6 in hksi_lua_pcall(lua_State*, int, int, int) ()
+#6  0x00000000020d5c16 in Lua::Details::CCallWithErrorHandling(lua_State*, int (*)(lua_State*), void*) ()
+#7  0x0000000001f1f9ac in ForgeUI::LuaContext::Initialize() ()
+#8  0x0000000001f30bdf in ForgeUI::ControlBase::Initialize() ()
+#9  0x0000000001f19584 in ForgeUI::ContextBase::Initialize() ()
+#10 0x00000000015f96c3 in AppUIDebug::Startup() ()
+#11 0x000000000161a8a7 in Civ6App::AppInit(unsigned int, unsigned int) ()
+#12 0x00000000016177cf in Civ6App::GUIInit() ()
+#13 0x000000000279c989 in AppHost::RunApp(int, char**, AppHost::Application*) ()
+#14 0x000000000279c161 in AppHost::RunApp(char*, AppHost::Application*) ()
+#15 0x0000000001630908 in WinMain ()
+#16 0x0000000001374091 in ?? ()
+#17 0x0000000001376179 in ThreadHANDLE::ThreadProc(void*) ()
+#18 0x00007ffff729caa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
+#19 0x00007ffff7329c3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+```
 
 #### Notes
 
@@ -80,3 +143,12 @@ Referenced in LuaSystem::LuaScriptSystem::LogAt:
 ```
 Platform::LogEvent("Lua.log" // ...)
 ```
+
+Platform::LogEvent is also used for all other logs (LoadGameViewState.log, Startup.log), but they're working; is there some kind of check or flag disabling lua logging?
+
+- LogAt called from 0x20e3a79 in LoadFileHelper (202005 binary)
+
+`print` statement seems to be handled in `LuaSystem::LuaScriptSystem::pInitializeMainState`?
+
+- `LuaSystem::LuaScriptSystem::pGlobal_Print`
+- subtract 0x1c0b58 from address in gdb to get ghidra address
