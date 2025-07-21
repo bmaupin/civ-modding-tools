@@ -27,7 +27,8 @@ The aforementioned June update was released 2020-06-25, and the August update wa
 
 - Lua.log seems to be created by the function `LuaSystem::LuaScriptSystem::LogAt`
   - LogAt does not get called in the latest game binary
-- Lua.log is created in the game binary from manifest 4494595049480381275
+- Lua.log stopped being created starting from manifest 2305626520846987208 (20200827)
+- Lua.log was created up until manifest 6242871612670547167 (20200723)
   - LogAt does get called in this binary!
   - This message gets logged:
     ```
@@ -37,22 +38,25 @@ The aforementioned June update was released 2020-06-25, and the August update wa
 
 #### gdb
 
-1. Get name of function
+1. Tail to see when Lua.log is created and logged to
 
    ```
-   $ strings Civ6 | grep LogAt
-   _ZN9LuaSystem15LuaScriptSystem5LogAtEijPKcz
+   tail -F Lua.log
    ```
 
 1. Start game with gdb
 
    ```
    gdb Civ6
-   (gdb) break _ZN9LuaSystem15LuaScriptSystem5LogAtEijPKcz
-   Breakpoint 1 at 0x3bfd6fa
-   (gdb) start
-   # after first breakpoint (automatic for main function?)
-   (gdb) c
+   (gdb) break LuaSystem::LuaScriptSystem::LoadFileHelper
+   Breakpoint 1 at 0x3a744bc
+   (gdb) run
+   ```
+
+1. Step through until file is created
+
+   ```
+   (gdb) nexti
    ```
 
 Backtrace:
