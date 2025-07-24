@@ -1,3 +1,5 @@
+ⓘ This is an incoherent dump of research
+
 ## The problem
 
 Lua.log no longer seems to be created in Linux as per this comment:
@@ -240,6 +242,13 @@ $1 = 0x7fffc95d28d0 "[7/23/2025 19:41:10.347] ServerConnection.cpp(483) FiraxisL
 FiraxisLive.log
 ```
 
+#### Platform::OpenFile
+
+```
+(gdb) printf "%ls\n", (wchar_t*)$rdi
+C:/Emu/AppDataParent//Sid Meier's Civilization VI/Logs/Lua.log
+```
+
 #### \_\_libc_open64
 
 File is already printed!
@@ -247,13 +256,6 @@ File is already printed!
 ```
 (gdb) print (char *)file
 $2 = 0x7fff78006cd0 "/home/user/.pulse/client.conf"
-```
-
-#### Platform::OpenFile
-
-```
-(gdb) printf "%ls\n", (wchar_t*)$rdi
-../../../Base/Platforms/Windows/Audio/banks.ini
 ```
 
 ## Notes
@@ -272,7 +274,9 @@ $2 = 0x7fff78006cd0 "/home/user/.pulse/client.conf"
 
 #### To try
 
-1. [ ] Check that my Platform::LogEvent breakpoint works in the old binary
+1. [x] Check that my Platform::LogEvent breakpoint works in the old binary
+1. [ ] Step back through old binary and see exactly where file is created/written to; Log or LogAt?
+   - The rr replay isn't creating the file
 1. [ ] Confirm LogEvent isn't being called for Lua.log
 1. [ ] Figure out exactly which functions are and aren't being called between the two
    - pGlobal_Print: check
@@ -282,41 +286,36 @@ $2 = 0x7fff78006cd0 "/home/user/.pulse/client.conf"
 
 #### Still trying to figure out what code is creating the file
 
-1. Set up helper functions
-
-   ```
-   set $my_strlen = (long(*)(const char*))&strlen
-   ```
-
-   ```
-   set $my_strcmp = (long(*)(const char*, const char*))&strcmp
-   ```
-
 1. Set initial breakpoints
 
    ```
    break LuaSystem::LuaScriptSystem::LoadFileHelper
    ```
 
+1. Run
+
+   ```
+   run
+   ```
+
 1. After that breakpoint is reached, set more
 
-```
-break LuaSystem::LuaScriptSystem::pGlobal_Print
-break LuaSystem::LuaScriptSystem::LogAt
-break LuaSystem::LuaScriptSystem::Log
-# break Platform::LogEvent
-break __libc_open64 if (long)strstr((char*)file, "Lua.log")
-?? break __libc_open64 if (long)(strstr((char*)file, ".log"))
-break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
-break Platform::OpenFile if wcsstr((wchar_t*)$rdi, L".log")
-```
+   👉 Enter them one at a time!
+
+   ```
+   break LuaSystem::LuaScriptSystem::pGlobal_Print
+   break LuaSystem::LuaScriptSystem::LogAt
+   break LuaSystem::LuaScriptSystem::Log
+   break __libc_open64 if (long)strstr((char*)file, "Lua.log")
+   break __libc_open64 if (long)(strstr((char*)file, ".log"))
+   break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
+   break Platform::OpenFile if wcsstr((wchar_t*)$rdi, L".log")
+   ```
 
 No: too frequent breaks:
 
 - Platform::LogEvent
 - \_\_libc_open64
-
-print (char \*)file
 
 ## Locations
 
@@ -342,39 +341,18 @@ print (char \*)file
 👉 Keep an eye on the thread
 
 1. LoadFileHelper
-1. pGlobal_Print?
-
-#### \_\_libc_open64
-
-```
-#0  __libc_open64 (file=0x7fffabcbc4c0 "/home/user/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs/Lua.log", oflag=577) at ../sysdeps/unix/sysv/linux/open64.c:30
-#1  0x0000000002c3f2a3 in open ()
-#2  0x0000000002c59b30 in CreateFileA ()
-#3  0x0000000002c59d78 in CreateFileW ()
-#4  0x0000000003ab6353 in Platform::OpenFile(wchar_t const*, Platform::FileData&) ()
-#5  0x0000000003ab19a5 in ?? ()
-#6  0x0000000003ab1fe0 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
-#7  0x0000000003a73178 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
-#8  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
-#9  0x00000000043c1868 in int hks::execute<(HksBytecodeSharingMode)0>(lua_State*, hksInstruction const*, int) ()
-#10 0x0000000003a38b04 in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#11 0x0000000003a4a805 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#12 0x0000000003a0ea7a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#13 0x0000000003a66ce5 in Lua::Details::CallWithErrorHandling(lua_State*, unsigned int, unsigned int) ()
---Type <RET> for more, q to quit, c to continue without paging--c
-#14 0x0000000003a66e39 in Lua::LoadBuffer(lua_State*, char const*, unsigned long, char const*) ()
-#15 0x0000000003a745b9 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
-#16 0x0000000003a730a1 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
-#17 0x0000000003a387cc in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#18 0x0000000003a4a805 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#19 0x0000000003a0ea7a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#20 0x0000000003a67db8 in Lua::Details::CCallWithErrorHandling(lua_State*, int (*)(lua_State*), void*) ()
-```
+1. pGlobal_Print
+1. Log
+1. LogEvent
+1. OpenFile
+1. LogEvent
+   - To add the newline
+1. LogAt
+   - why? isn't this redundant?
 
 #### pGlobal_Print
 
 ```
-(gdb) bt
 #0  0x0000000003a73dde in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
 #1  0x00000000043c1868 in int hks::execute<(HksBytecodeSharingMode)0>(lua_State*, hksInstruction const*, int) ()
 #2  0x0000000003a38b04 in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
@@ -384,23 +362,63 @@ print (char \*)file
 #6  0x0000000003a66e39 in Lua::LoadBuffer(lua_State*, char const*, unsigned long, char const*) ()
 #7  0x0000000003a745b9 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
 #8  0x0000000003a730a1 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
-#9  0x0000000003a387cc in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#10 0x0000000003a4a805 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#11 0x0000000003a0ea7a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#12 0x0000000003a67db8 in Lua::Details::CCallWithErrorHandling(lua_State*, int (*)(lua_State*), void*) ()
-#13 0x00000000038b656a in ForgeUI::LuaContext::Initialize() ()
-#14 0x00000000038c5f19 in ForgeUI::ControlBase::Initialize() ()
-#15 0x00000000038af6c4 in ForgeUI::ContextBase::Initialize() ()
-#16 0x0000000002e3a434 in AppUIDebug::Startup() ()
-#17 0x0000000002e62d25 in Civ6App::AppInit(unsigned int, unsigned int) ()
-#18 0x0000000002e605e6 in Civ6App::GUIInit() ()
-#19 0x000000000412db82 in AppHost::RunApp(int, char**, AppHost::Application*) ()
-#20 0x000000000412d494 in AppHost::RunApp(char*, AppHost::Application*) ()
-#21 0x0000000002e8513c in WinMain ()
-#22 0x0000000002baaf71 in ?? ()
-#23 0x0000000002bad059 in ThreadHANDLE::ThreadProc(void*) ()
-#24 0x00007ffff729caa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
-#25 0x00007ffff7329c3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+```
+
+#### Log
+
+```
+#0  0x0000000003a730a6 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#1  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+#### LogEvent
+
+```
+#0  0x0000000003ab1fa3 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
+#1  0x0000000003a73178 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#2  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+#### OpenFile
+
+```
+#0  0x0000000003ab62d7 in Platform::OpenFile(wchar_t const*, Platform::FileData&) ()
+#1  0x0000000003ab19a5 in ?? ()
+#2  0x0000000003ab1fe0 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
+#3  0x0000000003a73178 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#4  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+#### \_\_libc_open64
+
+```
+#0  __libc_open64 (
+    file=0x7ff0b4fc8da0 "/home/bmaupin/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs/Lua.log",
+    oflag=577) at ../sysdeps/unix/sysv/linux/open64.c:30
+#1  0x0000000002c3f2a3 in open ()
+#2  0x0000000002c59b30 in CreateFileA ()
+#3  0x0000000002c59d78 in CreateFileW ()
+#4  0x0000000003ab6353 in Platform::OpenFile(wchar_t const*, Platform::FileData&) ()
+#5  0x0000000003ab19a5 in ?? ()
+#6  0x0000000003ab1fe0 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
+#7  0x0000000003a73178 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#8  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+#### LogEvent
+
+```
+#0  0x0000000003ab1fa3 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
+#1  0x0000000003a7319d in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#2  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+#### LogAt
+
+```
+#0  0x0000000003a731aa in LuaSystem::LuaScriptSystem::LogAt(int, unsigned int, char const*, ...) ()
+#1  0x0000000003a74691 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
+#2  0x0000000003a730a1 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
 ```
 
 ### Bad binary
@@ -427,10 +445,6 @@ LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
 #6  0x0000000003a676f9 in Lua::LoadBuffer(lua_State*, char const*, unsigned long, char const*) ()
 #7  0x0000000003a74e67 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
 #8  0x0000000003a73961 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
-#9  0x0000000003a3908c in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#10 0x0000000003a4b0c5 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#11 0x0000000003a0f33a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#12 0x0000000003a68678 in Lua::Details::CCallWithErrorHandling(lua_State*, int (*)(lua_State*), void*) ()
 ```
 
 #### Log
@@ -446,10 +460,6 @@ LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
 #7  0x0000000003a676f9 in Lua::LoadBuffer(lua_State*, char const*, unsigned long, char const*) ()
 #8  0x0000000003a74e67 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
 #9  0x0000000003a73961 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
-#10 0x0000000003a3908c in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#11 0x0000000003a4b0c5 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#12 0x0000000003a0f33a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#13 0x0000000003a68678 in Lua::Details::CCallWithErrorHandling(lua_State*, int (*)(lua_State*), void*) ()
 ```
 
 #### LogEvent
@@ -469,3 +479,34 @@ LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
 ```
 
 #### Platform::OpenFile
+
+### Use rr to record
+
+```
+timeout 10 rr reco
+rd ./Civ6
+```
+
+#### Replay
+
+⚠️ The rr replay won't behave exactly the same; it isn't going to connect to Steam or create log files!
+
+1. List available recordings
+
+   ```
+   ls ~/.local/share/rr/
+   ```
+
+1. Replay
+
+   ```
+   rr replay Civ6-0
+   ```
+
+1. Set breakpoints, etc.
+
+1. (As needed) Reverse back to last breakpoint
+
+   ```
+   reverse-cont
+   ```
