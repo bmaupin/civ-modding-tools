@@ -275,41 +275,69 @@ $2 = 0x7fff78006cd0 "/home/user/.pulse/client.conf"
 #### To try
 
 1. [x] Check that my Platform::LogEvent breakpoint works in the old binary
-1. [ ] Step back through old binary and see exactly where file is created/written to; Log or LogAt?
+1. [x] Step back through old binary and see exactly where file is created/written to; Log or LogAt?
    - The rr replay isn't creating the file
-1. [ ] Confirm LogEvent isn't being called for Lua.log
-1. [ ] Figure out exactly which functions are and aren't being called between the two
-   - pGlobal_Print: check
-   - Log: check
-   - LogEvent
+1. [x] Run good binary through rr to confirm it matches regular gdb flow
+1. [x] Run bad binary through rr and compare
+1. [x] Confirm LogEvent isn't being called for Lua.log
 1. [ ] Then where they diverge, look at the binary to see maybe why
+   - Good: Log is calling LogEvent, bad: it's not
+   - Compare the flow and the state
 
 #### Still trying to figure out what code is creating the file
 
-1. Set initial breakpoints
+1. Use `start` to auto break on main
+
+   ⓘ Breaking on main allows us to set breakpoints after libraries are loaded
 
    ```
-   break LuaSystem::LuaScriptSystem::LoadFileHelper
+   start
    ```
 
-1. Run
+   - Or if using `rr`
 
-   ```
-   run
-   ```
+     1. Set breakpoint on main
 
-1. After that breakpoint is reached, set more
+        ```
+        break main
+        ```
+
+     1. Run
+
+        ```
+        run
+        ```
+
+     1. Delete breakpoint on main once it breaks
+
+        ```
+        delete
+        ```
+
+1. Set more breakpoints
 
    👉 Enter them one at a time!
 
    ```
+   break LuaSystem::LuaScriptSystem::LoadFileHelper
    break LuaSystem::LuaScriptSystem::pGlobal_Print
    break LuaSystem::LuaScriptSystem::LogAt
    break LuaSystem::LuaScriptSystem::Log
-   break __libc_open64 if (long)strstr((char*)file, "Lua.log")
-   break __libc_open64 if (long)(strstr((char*)file, ".log"))
    break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
+   break __libc_open64 if (long)strstr((char*)file, "Lua.log")
+   ```
+
+1. Continue
+
+   ```
+   c
+   ```
+
+1. After the next breakpoint is reached, set more
+
+   ```
    break Platform::OpenFile if wcsstr((wchar_t*)$rdi, L".log")
+   break __libc_open64 if (long)(strstr((char*)file, ".log"))
    ```
 
 No: too frequent breaks:
@@ -345,10 +373,13 @@ No: too frequent breaks:
 1. Log
 1. LogEvent
 1. OpenFile
+1. \_\_libc_open64
+   - This is where the file gets created! (after this break runs)
 1. LogEvent
    - To add the newline
+   - This is where the log gets written! (after this break runs)
 1. LogAt
-   - why? isn't this redundant?
+   - Does this matter? We've already logged at this point
 
 #### pGlobal_Print
 
@@ -430,8 +461,16 @@ No: too frequent breaks:
 1. LoadFileHelper
 1. pGlobal_Print
 1. Log
+   - This is where the flow stops, compared to the good binary
 
 LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
+
+#### LoadFileHelper
+
+```
+#0  0x0000000003a74d7c in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
+#1  0x0000000003a73961 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
+```
 
 #### pGlobal_Print
 
