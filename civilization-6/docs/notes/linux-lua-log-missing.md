@@ -491,30 +491,6 @@ LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
 ```
 #0  0x0000000003a73966 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
 #1  0x0000000003a74953 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
-#2  0x00000000043c20b8 in int hks::execute<(HksBytecodeSharingMode)0>(lua_State*, hksInstruction const*, int) ()
-#3  0x0000000003a393c4 in hks::vm_call_internal(lua_State*, void*, int, hksInstruction const*) ()
-#4  0x0000000003a4b0c5 in hks::runProtected(lua_State*, void (*)(lua_State*, void*, int, hksInstruction const*), void*, int) ()
-#5  0x0000000003a0f33a in hksi_lua_pcall(lua_State*, int, int, int) ()
-#6  0x0000000003a675a5 in Lua::Details::CallWithErrorHandling(lua_State*, unsigned int, unsigned int) ()
-#7  0x0000000003a676f9 in Lua::LoadBuffer(lua_State*, char const*, unsigned long, char const*) ()
-#8  0x0000000003a74e67 in LuaSystem::LuaScriptSystem::LoadFileHelper(lua_State*, wchar_t const*, bool) ()
-#9  0x0000000003a73961 in LuaSystem::LuaScriptSystem::pLoadFile(lua_State*) ()
-```
-
-#### LogEvent
-
-```
-#0  0x0000000003ab27e7 in Platform::LogEvent(wchar_t const*, char const*, unsigned int) ()
-#1  0x0000000002e66c27 in Civ6App::SetupIndependentSystems(unsigned int, unsigned int) ()
-#2  0x0000000002e630b4 in Civ6App::AppInit(unsigned int, unsigned int) ()
-#3  0x0000000002e60966 in Civ6App::GUIInit() ()
-#4  0x000000000412e3d2 in AppHost::RunApp(int, char**, AppHost::Application*) ()
-#5  0x000000000412dce4 in AppHost::RunApp(char*, AppHost::Application*) ()
-#6  0x0000000002e8541c in WinMain ()
-#7  0x0000000002bab1e1 in ?? ()
-#8  0x0000000002bad2c9 in ThreadHANDLE::ThreadProc(void*) ()
-#9  0x00007ffff729caa4 in start_thread (arg=<optimized out>) at ./nptl/pthread_create.c:447
-#10 0x00007ffff7329c3c in clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
 ```
 
 #### Platform::OpenFile
@@ -524,6 +500,14 @@ LogEvent not getting called for Lua.log??? Confirm that my breakpoint is working
 ```
 timeout 10 rr reco
 rd ./Civ6
+```
+
+If you get this error: `Permission denied to use 'perf_event_open'`
+
+Run this:
+
+```
+sudo sh -c "echo 1 > /proc/sys/kernel/perf_event_paranoid"
 ```
 
 #### Replay
@@ -544,8 +528,106 @@ rd ./Civ6
 
 1. Set breakpoints, etc.
 
-1. (As needed) Reverse back to last breakpoint
+1. Step through code
 
-   ```
-   reverse-cont
-   ```
+   💡 Use `reverse-` prefix to move backwards, e.g.
+
+   - `reverse-continue`
+   - `reverse-nexti`
+
+## Lua function flow and state
+
+### Notes
+
+- Divergence is in byte 8 of parameter 1 in function Log
+  ```
+  (rr) print *(int*)($rdi + 8)
+  $7 = 0
+  ```
+
+### Quick reference
+
+```
+rr replay Civ6-good-0
+```
+
+```
+rr replay Civ6-bad-1
+```
+
+### Flow to examine
+
+1. pGlobal_Print
+1. Log
+1. LogEvent
+   - This is what's not being called by the bad binary
+
+### To do
+
+- [x] Compare functions
+  - [x] Log
+    - Identical
+  - [x] pGlobal_Print
+- [x] Compare instruction flow to see where they diverge
+- [x] Compare state to see where they diverge
+- [ ] Work backwards to see why state diverges
+  - Set breakpoint at Log and work backwards
+  - What is the first parameter of log?
+- [ ] Compare LoadFileHelper?
+
+### Breakpoints
+
+```
+break LuaSystem::LuaScriptSystem::LoadFileHelper
+break LuaSystem::LuaScriptSystem::pGlobal_Print
+break LuaSystem::LuaScriptSystem::LogAt
+break LuaSystem::LuaScriptSystem::Log
+break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
+```
+
+### Code execution flow
+
+- Call point from pGlobal_Print seems to be the same
+-
+
+### Good (6242871612670547167/20200723)
+
+#### pGlobal_Print (~3a73dde)
+
+#### Log (~3a730a6)
+
+- First if statement is skipped
+  - print/x $al
+    0x0
+- Second if statement is not skipped
+  ```
+  (rr) print (char*)$rsi
+  $12 = 0x7ff0b4fc8b64 "DebugHotloadCache: GameDebug initialized!"
+  (rr) print *(int*)($rdi + 8)
+  $13 = 1
+  ```
+-
+- LogEvent gets called at 3a73178
+
+```
+#0  0x0000000003a730a6 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#1  0x0000000003a74093 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
+
+### Bad (2305626520846987208/20200827)
+
+#### pGlobal_Print (~3a7469e)
+
+#### Log (~3a73966)
+
+- First if statement is skipped
+- Second if statement is skipped!! This is where they diverge:
+  ```
+  (rr) print *(int*)($rdi + 8)
+  $13 = 0
+  ```
+
+```
+#0  0x0000000003a73966 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
+#1  0x0000000003a74953 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
+```
