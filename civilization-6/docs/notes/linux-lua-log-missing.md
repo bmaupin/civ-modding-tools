@@ -631,3 +631,14 @@ break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
 #0  0x0000000003a73966 in LuaSystem::LuaScriptSystem::Log(char const*, ...) ()
 #1  0x0000000003a74953 in LuaSystem::LuaScriptSystem::pGlobal_Print(lua_State*) ()
 ```
+
+### RDI+8
+
+#### What is RDI+8?
+
+#### Where is RDI+8 set?
+
+```
+watch *(int*)($rdi + 8)
+reverse-continue
+```
