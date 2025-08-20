@@ -642,3 +642,48 @@ break Platform::LogEvent if wcsstr((wchar_t*)$rdi, L"Lua.log")
 watch *(int*)($rdi + 8)
 reverse-continue
 ```
+
+## macOS patch
+
+Unfortunately the macOS binary has no function names, so those can't be used
+
+1. Tried searching the code for
+
+   - `movabs $0xffffffff00000001`
+   - `movabs $0xffffffff00000000`
+   - `$0xffffffff00000001`
+   - `$0xffffffff00000000`
+
+1. Search strings in binary with Ghidra for `LuaScriptSystem`
+
+   - Found `/Volumes/Workspace 01/Civ6/Civ6/Branches/Port-Release-B/Civ6/Src/App/Scripting/AppLuaScriptSystem.cpp`
+
+1. Get references to the address of the string
+
+1. Go to the code where the string address is referenced. There's a function call, so go to that function
+
+1. It calls another function, go to that one
+
+1. It looks just like the `LuaSystem::LuaScriptSystem::LuaScriptSystem` function in the Linux binary
+
+   - Sets some kind of flag to 1 at the top of the function
+     - Flag is 0 in latest binaries; seems like the culprit
+   - Sets a bunch of other offsets to 0
+   - Calls two functions then returns
+
+   This looks like the line we're looking for:
+
+   ```
+   101441cb3: 48 b8 01 00 00 00 ff ff ff ff        movabsq $-0xffffffff, %rax ## imm = 0xFFFFFFFF00000001
+   ```
+
+1. Use the same logic to find it in the latest macOS binary
+
+   It's a universal binary:
+
+   - x86_64:
+     ```
+     1009b7d50:      48 b8 00 00 00 00 ff ff ff ff   movabsq $-0x100000000, %rax
+     ```
+   - arm64
+     - TODO
