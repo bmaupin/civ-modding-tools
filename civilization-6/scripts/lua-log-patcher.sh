@@ -8,6 +8,11 @@ if [ -z "${1}" ]; then
     exit 1
 fi
 
+if ! file "${1}" | grep -q 'ELF 64-bit LSB executable'; then
+    echo "Error: ${1} is not a Linux binary"
+    exit 1
+fi
+
 echo "Please wait ..."
 
 bin_path="${1}"

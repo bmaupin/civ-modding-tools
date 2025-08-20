@@ -26,9 +26,13 @@ Run [lua-log-patcher.sh](../scripts/lua-log-patcher.sh), e.g.
 ./lua-log-patcher.sh ~/.steam/steam/steamapps/common/Sid\ Meier\'s\ Civilization\ VI/Civ6
 ```
 
+#### macOS
+
+A macOS patch would need to be tested before a patch script can be developed. See here if you're interested in helping: [Add Civ 6 Lua.log patch script for macOS](https://github.com/bmaupin/civ-modding-tools/issues/1)
+
 #### Windows
 
-The Windows build does not have this issue as far as I'm aware
+No need for a patch; the Windows build does not have this issue as far as I'm aware
 
 ### Uninstall
 

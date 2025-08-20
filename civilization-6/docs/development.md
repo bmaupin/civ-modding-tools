@@ -54,6 +54,6 @@ Check these logs in ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Logs:
 
 #### _Error - One or more of the startup sripts has an error. See lua.log_
 
-⚠️ On Linux, it appears that lua.log is not generated: https://steamcommunity.com/app/289070/discussions/0/144512942755435118/?ctp=183#c2942495544689782750
+⚠️ On Linux and Mac, it appears that lua.log is not generated. See [Fix for missing Lua.log](./lua-log-fix.md).
 
 In my case, this was caused because I was using a map size that was too small and triggering errors in the game engine.
