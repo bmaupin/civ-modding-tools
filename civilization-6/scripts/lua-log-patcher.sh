@@ -8,15 +8,15 @@ if [ -z "${1}" ]; then
     exit 1
 fi
 
-echo "Please wait, this may take a minute or two ..."
+echo "Please wait ..."
 
 bin_path="${1}"
 
 # Get the virtual address we need to patch
-virtual_address=$(objdump -D "${bin_path}" | grep -A20 -B5 '_ZN9LuaSystem15LuaScriptSystemC1EPFPvS1_S1_mmEii' | grep 'movabs $0xffffffff00000000' | awk '{print $1}' | cut -d : -f 1)
+virtual_addresses=$(objdump --demangle --disassemble "${bin_path}" | grep -A20 -B5 'LuaSystem::LuaScriptSystem::LuaScriptSystem' | grep 'movabs $0xffffffff00000000' | awk '{print $1}' | cut -d : -f 1)
 
-if [[ -z "$virtual_address" ]]; then
-    echo "Unable to find address to patch; has the file already been patched?"
+if [[ -z "$virtual_addresses" ]]; then
+    echo "Unable to find addresses to patch; has the file already been patched?"
     exit 1
 fi
 
@@ -24,19 +24,23 @@ fi
 text_file_offset=$(objdump -h "${bin_path}" | grep .text | awk '{ print $6 }')
 text_virtual_offset=$(objdump -h "${bin_path}" | grep .text | awk '{ print $4 }')
 
-file_offset=$((0x$virtual_address + 0x$text_file_offset - 0x$text_virtual_offset))
+# Patch each virtual address found
+for virtual_address in ${virtual_addresses}; do
+    file_offset=$((0x$virtual_address + 0x$text_file_offset - 0x$text_virtual_offset))
 
-bytes=$(xxd -p -l 10 --seek "${file_offset}" "${bin_path}" | tr -d '\n')
+    bytes=$(xxd -p -l 10 --seek "${file_offset}" "${bin_path}" | tr -d '\n')
 
-# Make sure bytes match what we expect
-if [[ "${bytes}" != "48b800000000ffffffff" ]]; then
-    echo "Unexpected bytes at offset ${file_offset}: ${bytes}"
-    echo "This shouldn't happen; please check the binary file."
-    exit 1
-fi
+    # Make sure bytes match what we expect
+    if [[ "${bytes}" != "48b800000000ffffffff" ]]; then
+        echo "Unexpected bytes at offset ${file_offset}: ${bytes}"
+        echo "This shouldn't happen; please check the binary file."
+        exit 1
+    fi
 
-# Apply the patch to the extracted bytes
-patched_bytes=$(echo "${bytes}" | sed 's/48b800000000ffffffff/48b801000000ffffffff/')
+    patched_bytes='48b801000000ffffffff'
 
-# Write the patched bytes back to the binary file
-echo "${patched_bytes}" | xxd -p -r | dd of="${bin_path}" bs=1 conv=notrunc seek="${file_offset}"
+    echo "Patching bytes at offset ${file_offset} from ${bytes} to ${patched_bytes}"
+
+    # Write the patched bytes back to the binary file
+    echo "${patched_bytes}" | xxd -p -r | dd of="${bin_path}" bs=1 conv=notrunc seek="${file_offset}"
+done

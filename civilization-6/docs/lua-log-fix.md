@@ -1,3 +1,45 @@
+# Fix for missing Lua.log
+
+## Description
+
+Lua.log is referenced sometimes in game error messages, for example:
+
+> Error Starting Game
+>
+> There was an error starting the game.
+>
+> We recommend disabling any mods and trying again.
+>
+> Error - One or more of the startup scripts has an error. See lua.log
+
+However, on Linux and Mac, it seems that starting around 2020-08-27, the Lua.log file is no longer created.
+
+## Fix
+
+### Install
+
+#### Linux
+
+Run [lua-log-patcher.sh](../scripts/lua-log-patcher.sh), e.g.
+
+```
+./lua-log-patcher.sh ~/.steam/steam/steamapps/common/Sid\ Meier\'s\ Civilization\ VI/Civ6
+```
+
+#### Windows
+
+The Windows build does not have this issue as far as I'm aware
+
+### Uninstall
+
+To uninstall the patch:
+
+1. Open Steam and go to _Library_
+
+1. Find _Sid Meier's Civilization VI_ and right-click on it > _Properties_
+
+1. _Installed Files_ > _Verify integrity of game files_
+
 ## Issue submitted with Aspyr 2025-07-25
 
 Response:
@@ -162,3 +204,19 @@ Response:
      ```
      3bfc806: 48 b8 01 00 00 00 ff
      ```
+
+1. I tested, and that worked!
+
+1. When creating a patch script, instead of using the exact function name, I used the demangled function name and discovered there are actually three variants of the same function that need to be patched:
+
+   ```
+   $ objdump --demangle --disassemble "${bin_path}" | grep -A20 -B5 'LuaSystem::LuaScriptSystem::LuaScriptSystem' | grep -B 13 'movabs $0xffffffff00000000' | egrep 'LuaSystem::LuaScriptSystem::LuaScriptSystem|0xffffffff00000000'
+   0000000003bfc570 <LuaSystem::LuaScriptSystem::LuaScriptSystem()@@Base>:
+    3bfc582:       48 b8 00 00 00 00 ff    movabs $0xffffffff00000000,%rax
+   0000000003bfc76c <LuaSystem::LuaScriptSystem::LuaScriptSystem(void* (*)(void*, void*, unsigned long, unsigned long))@@Base>:
+    3bfc784:       48 b8 00 00 00 00 ff    movabs $0xffffffff00000000,%rax
+   0000000003bfc7e4 <LuaSystem::LuaScriptSystem::LuaScriptSystem(void* (*)(void*, void*, unsigned long, unsigned long), int, int)@@Base>:
+    3bfc806:       48 b8 00 00 00 00 ff    movabs $0xffffffff00000000,%rax
+   ```
+
+   So I modified the patch script accordingly to patch them all
