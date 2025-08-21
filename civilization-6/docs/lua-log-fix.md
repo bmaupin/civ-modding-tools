@@ -28,7 +28,9 @@ Run [lua-log-patcher.sh](../scripts/lua-log-patcher.sh), e.g.
 
 #### macOS
 
-A macOS patch would need to be tested before a patch script can be developed. See here if you're interested in helping: [Add Civ 6 Lua.log patch script for macOS](https://github.com/bmaupin/civ-modding-tools/issues/1)
+A patch for Macs with Intel processors may be possible but it would need to be tested. See here if you're interested in helping: [Add Civ 6 Lua.log patch script for Intel Macs](https://github.com/bmaupin/civ-modding-tools/issues/1)
+
+A patch for Macs with ARM processors does not seem viable.
 
 #### Windows
 

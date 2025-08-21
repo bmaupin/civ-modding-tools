@@ -685,5 +685,24 @@ Unfortunately the macOS binary has no function names, so those can't be used
      ```
      1009b7d50:      48 b8 00 00 00 00 ff ff ff ff   movabsq $-0x100000000, %rax
      ```
+     - Should be able to easily patched by replacing with `48 b8 01 00 00 00 ff ff ff ff`
    - arm64
-     - TODO
+     ```
+     100912af4:      00 e6 07 2f     movi    d0, #0xffffffff00000000
+     ```
+     - No idea how to patch. ARM instructions are much more condensed and `0xffffffff00000000` is a pattern and not explicitly defined in bytes. Beyond that, there are no NOPs in the code where extra instructions could be put.
+
+1. Patch x86_64 binary inside universal binary
+
+   - x86_64 seems to be the first binary:
+     ```
+     $ file Civ6_Exe_Child
+     Civ6_Exe_Child: Mach-O universal binary with 2 architectures: [x86_64:\012- Mach-O 64-bit x86_64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|WEAK_DEFINES|BINDS_TO_WEAK|HAS_TLV_DESCRIPTORS>] [\012- arm64]
+     ```
+   - The binary offset of 101441cb3 is 0x9b7d50 (10190160)
+   - We need to add 16384; 10190160+16384 = 10206544
+     ```
+     $ xxd -s 10206544 -l 16 Civ6_Exe_Child
+     009bbd50: 48b8 0000 0000 ffff ffff 4889 4708 488d  H.........H.G.H.
+     ```
+   - So the patch would need to change byte 0x9bbd52 from 0 to 1
