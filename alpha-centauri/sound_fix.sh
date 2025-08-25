@@ -6,6 +6,12 @@ DIR0=fx;
 DIR1="$DIR0.org";
 DIR2="$DIR0.mod";
 
+if [ ! -d "$DIR0" ]
+then
+echo "Error: $DIR0 directory not found. Please run this script in the game directory."
+exit 1
+fi
+
 # If the new directory does not exist rename the existing one
 if [ ! -d "$DIR1" ]
 then
