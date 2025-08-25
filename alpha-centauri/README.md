@@ -1,10 +1,28 @@
 # Sid Meier's Alpha Centauri
 
-## Audio crackling
+## Common issues
+
+#### Audio crackling
 
 The audio crackles when playing in Steam with Proton. The fix here seems to work: https://www.gog.com/forum/sid_meier_s_alpha_centauri_/fix_for_static_sound
 
 The script has also been added here for purposes of preservation: [sound_fix.sh](sound_fix.sh)
+
+#### Force the game to use a specific monitor
+
+Using Proton, the game seems to always show on whichever monitor is primary in Wayland.
+
+The suggested workaround is to run the game in a virtual desktop:
+
+1. `protontricks 2204130 winecfg`
+1. _Graphics_ > check _Emulate a virtual desktop_
+1. _Desktop size_ > 1024 x 768
+1. When running the game, the resolution may auto adjust. Once the main menu appears, you can resize the game window as needed.
+
+What doesn't work:
+
+- Disabling the other monitor in the display settings works, but if you re-enable it while the game is running, the game display (or mouse control) messes up and the game becomes unplayable
+- Setting the monitor you wish to run the game on as the primary display will cause the game to display on that monitor, but if you click away from the game on the other monitor, the game will no longer display when you go back to it.
 
 ## Tips for faster gameplay
 
