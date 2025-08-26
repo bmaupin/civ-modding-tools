@@ -45,12 +45,19 @@ One of the best way to make the game go quicker is to use keyboard shortcuts.
    - Enable _One for All_ (Allow cooperative victory, this is enabled by default)
    - Enable _Do or Die_ (Don't restart eliminated players)
    - Enable _Time Warp_ (Accelerated start, gives extra units and bases on the first turn)
+   - Enable _Blind Research_ (Select an area of research instead of a specific tech)
 
 ## Map sizes
 
 ⓘ One of the most important factors in the length of a 4X game is the size of the map. This has its own section as it's a bit more complicated in Alpha Centauri.
 
 ⚠️ Unless otherwise noted, all map sizes in this document use the same format that the game itself uses, e.g. a 16x16 map will contain 32 horizontal and 16 vertical tiles. Read below for more information.
+
+#### Choosing a map size
+
+1. Choose one of the included map sizes; see below for creating custom world sizes with or without modding
+
+1. At _Select Ocean Coverage_, choose _30-50% of surface_ to increase the land surface and the chance of having more factions in the game
 
 #### Map sizes explained
 
@@ -128,7 +135,9 @@ This is one way to measure the map size when testing:
 
 1. Divide the X coordinate by 2 to get the "Horizontal" value of the map (as you would use in the game UI or alpha.txt)
 
-For example, if the largest map coordinate is 31,15, the map is 16x16 (16 horizontal, 16 vertical)
+   For example, if the largest map coordinate is 31,15, the map is 16x16 (16 horizontal, 16 vertical)
+
+1. To reveal the map to see how many factions there are, press Ctrl+K to enable the scenario editor and accept the warning message that pops up
 
 #### Testing various map sizes
 
