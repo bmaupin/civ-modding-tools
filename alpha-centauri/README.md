@@ -6,7 +6,7 @@
 
 The audio crackles when playing in Steam with Proton. The fix here seems to work: https://www.gog.com/forum/sid_meier_s_alpha_centauri_/fix_for_static_sound
 
-The script has also been added here for purposes of preservation: [sound_fix.sh](sound_fix.sh)
+The script has also been added here for purposes of preservation: [scripts/sound_fix.sh](scripts/sound_fix.sh)
 
 #### Force the game to use a specific monitor
 
