@@ -24,6 +24,10 @@ What doesn't work:
 - Disabling the other monitor in the display settings works, but if you re-enable it while the game is running, the game display (or mouse control) messes up and the game becomes unplayable
 - Setting the monitor you wish to run the game on as the primary display will cause the game to display on that monitor, but if you click away from the game on the other monitor, the game will no longer display when you go back to it.
 
+#### Load Game defaults to home folder
+
+Need to browse to ~/.steam/steam/steamapps/common/Sid Meier's Alpha Centauri/saves
+
 ## Tips for faster gameplay
 
 ⓘ As with most 4X games, games of Alpha Centauri can be very long. These are some notes at attempts to make the game quicker.
@@ -33,6 +37,7 @@ What doesn't work:
 One of the best way to make the game go quicker is to use keyboard shortcuts.
 
 - Enter: ending the turn, choosing the default selection for most popups
+- Esc: close popups (e.g. research complete, base founded), go back during setup
 - Shift-A: automate (formers, etc)
 - /: explore automatically (scouts, etc)
 
@@ -40,12 +45,12 @@ One of the best way to make the game go quicker is to use keyboard shortcuts.
 
 1. When starting a game, choose _Customize Rules_
 
-1. Use these options for potentially faster gameplay:
+1. As desired, enable any of these options for potentially faster gameplay:
 
-   - Enable _One for All_ (Allow cooperative victory, this is enabled by default)
-   - Enable _Do or Die_ (Don't restart eliminated players)
-   - Enable _Time Warp_ (Accelerated start, gives extra units and bases on the first turn)
-   - Enable _Blind Research_ (Select an area of research instead of a specific tech)
+   - _One for All_ (Allow cooperative victory, this is enabled by default)
+   - _Do or Die_ (Don't restart eliminated players)
+   - _Blind Research_ (Select an area of research instead of a specific tech)
+   - _Time Warp_ (Accelerated start, gives extra units and bases on the first turn)
 
 ## Map sizes
 
