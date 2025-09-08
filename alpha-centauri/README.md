@@ -12,7 +12,9 @@ The script has also been added here for purposes of preservation: [scripts/sound
 
 Using Proton, the game seems to always show on whichever monitor is primary in Wayland.
 
-The suggested workaround is to run the game in a virtual desktop:
+💡 [Thinker mod](#thinker-mod) has windowed support out of the box
+
+Otherwise, you can run the game in a virtual desktop:
 
 1. `protontricks 2204130 winecfg`
 1. _Graphics_ > check _Emulate a virtual desktop_
@@ -39,6 +41,7 @@ One of the best way to make the game go quicker is to use keyboard shortcuts.
 - Enter: ending the turn, choosing the default selection for most popups
 - Esc: close popups (e.g. research complete, base founded), go back during setup
 - Shift-A: automate (formers, etc)
+  - When [Thinker mod](#thinker-mod) is installed, this can be used to automate any unit! Colony pods, military units, etc.
 - /: explore automatically (scouts, etc)
 
 #### Game options
@@ -55,6 +58,8 @@ One of the best way to make the game go quicker is to use keyboard shortcuts.
 ## Map sizes
 
 ⓘ One of the most important factors in the length of a 4X game is the size of the map. Map sizes in Alpha Centauri are a bit different; see [docs/map-sizes.md](docs/map-sizes.md) for more information.
+
+💡 With [Thinker mod](#thinker-mod) installed, map sizes can be even smaller because there can be more land and less ocean. See below for more information.
 
 #### Choosing a map size
 
@@ -100,3 +105,60 @@ When starting the game, you can choose a custom map size:
    ```
 
    ⚠️ Make sure the number under `#WORLDSIZE` matches the number of world sizes in the list
+
+## Thinker mod
+
+#### Install
+
+See [https://github.com/induktio/thinker/](https://github.com/induktio/thinker/)
+
+If playing on Linux using Proton, use these launch options to start the game with the Thinker mod:
+
+```
+/home/$USER/.local/share/Steam/ubuntu12_32/reaper SteamLaunch AppId=2204130 -- /home/$USER/.local/share/Steam/ubuntu12_32/steam-launch-wrapper -- "/home/$USER/.local/share/Steam/steamapps/common/SteamLinuxRuntime_sniper"/_v2-entry-point --verb=waitforexitandrun -- "/home/$USER/.local/share/Steam/steamapps/common/Proton 9.0 (Beta)"/proton waitforexitandrun "/home/$USER/.local/share/Steam/steamapps/common/Sid Meier's Alpha Centauri/thinker.exe" -PromptForGamePath # %command%
+```
+
+#### Configure
+
+Modify `thinker.ini` as desired
+
+E.g. to play in windowed mode:
+
+```
+video_mode=2
+window_width=1368
+window_height=768
+```
+
+To lower sea levels so that there's more land to make space for more factions on smaller maps:
+
+```
+world_sea_levels=30,40,50
+```
+
+ⓘ Each of the values corresponds to the options in the _Select Ocean Coverage_ setting when starting a new game
+
+#### To play SMAC in SMACX
+
+([https://github.com/induktio/thinker/blob/master/Details.md#smac-in-smacx-mod](https://github.com/induktio/thinker/blob/master/Details.md#smac-in-smacx-mod))
+
+SMAC modders decided to switch to modifying SMACX (the expansion pack) so they wouldn't have to maintain two versions of their mods. Because some players still prefer the base game (SMAC), a mod was developed that allows playing the base game in the expansion pack: _SMAC in SMACX_
+
+Thinker includes the SMAC in SMACX mod. To use it, set this line in `thinker.ini`:
+
+```
+smac_only=1
+```
+
+#### Map sizes
+
+Modify `smac_mod/alphax.txt` or `alphax.txt`:
+
+```
+#WORLDSIZE
+4
+10x16 320 tiles 3-4 factions, 10, 16
+12x16 384 tiles 3-4 factions, 12, 16
+14x16 448 tiles 3-5 factions, 14, 16
+16x16 512 tiles 5-6 factions, 16, 16
+```
