@@ -17,14 +17,40 @@
 
 1. Make changes to your mod as needed (can be done before or after starting a match)
    1. (Recommended) During development, update the description somehow so you know it's been updated (e.g. add a timestamp)
-1. Start a new match in Civ 6
-1. When you exit the match, the game will load any changes to mods
+1. Create or open a new map in World Builder, or start a new match in Civ 6
+1. When you exit back to the main menu, the game will load any changes to mods
 
 #### In-game databases
 
 The in-game databases are cached in the user directory (e.g. ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Cache) and can be opened with an SQLite browser to browse database structure, run queries for testing, etc.
 
 ## Troubleshooting
+
+### Game crashes with no error message
+
+⚠️ On Linux and Mac, it appears that lua.log is not generated. See [Fix for missing Lua.log](./lua-log-fix.md).
+
+1. Check Lua.log and Modding.log
+
+   ⓘ They may not show an error if the game crashed
+
+1. Check net_message_debug.log to see what the game was doing just before the crash
+
+   - It will show information such as `GameTurnComplete`, which player, etc
+
+1. Undo the most recent changes and see if the game no longer crashes
+
+1. If you still can't figure out the issue, do a git bisect to figure out when the crash started
+
+1. Break down changes into smaller pieces until the cause of the crash is identified
+
+### Game UI does not respond to clicks
+
+This could happen, for example, if an item is removed from the database but the game Lua code has a hard-coded reference to it.
+
+### Database changes aren't applied
+
+Check Modding.log and Database.log for errors (see below)
 
 ### _Error Starting Game_ popup
 

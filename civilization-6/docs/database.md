@@ -10,6 +10,7 @@ This allows overriding a configuration default for a rule set, for example:
 
 - `SourceValue` should match the rule set
 - `Static`: if set to 1, then the value will never change; for example, moving the city state slider will have no effect and the city state count will always show 0 in this case
+- `TargetId` should match a `ConfigurationId` in modinfo or setupparameters.xml
 
 In this example, checking the _No religion_ option unchecks the religious victory, and vice-versa:
 
@@ -17,6 +18,8 @@ In this example, checking the _No religion_ option unchecks the religious victor
 <Row SourceGroup="Game" SourceId="MC6_NO_RELIGION" SourceValue="0" TargetGroup="Game" TargetId="VICTORY_RELIGIOUS" TargetValue="1" Hash="0" />
 <Row SourceGroup="Game" SourceId="MC6_NO_RELIGION" SourceValue="1" TargetGroup="Game" TargetId="VICTORY_RELIGIOUS" TargetValue="0" Hash="0" />
 ```
+
+- `SourceID` should match a `ConfigurationId` in modinfo or setupparameters.xml
 
 ## ParameterCriteria
 
@@ -27,6 +30,9 @@ If _No religion_ is checked, disable religious victory:
 ```
 
 ⓘ This is different than `ConfigurationUpdates` (above), which checks or unchecks religious victory; this disables it so that it cannot be checked or unchecked.
+
+- `ConfigurationId` must match a `ConfigurationId` in modinfo or setupparameters.xml
+- `ParameterId` must match an existing `ParameterId` from `Parameters`
 
 ## ParameterDependencies
 
