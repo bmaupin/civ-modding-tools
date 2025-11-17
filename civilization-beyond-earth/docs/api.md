@@ -175,6 +175,35 @@ GameEvents.UnitKilledInCombat
 GameEvents.WonderSiteDestroyed
 ```
 
+Other game events; found by searching game core library for calls to `LuaSupport::CallTestAll`:
+
+```
+GameEvents.CanDeclareWar
+GameEvents.CanDisplaceCivilian
+GameEvents.CanRazeOverride
+GameEvents.CityBuildingsIsBuildingSellable
+GameEvents.CityCanBuyAnyPlot
+GameEvents.CityCanBuyPlot
+GameEvents.CityCanConstruct
+GameEvents.CityCanCreate
+GameEvents.CityCanMaintain
+GameEvents.CityCanPrepare
+GameEvents.CityCanTrain
+GameEvents.CanSaveUnit
+GameEvents.CanStartMission
+GameEvents.CityStrategyCanActivate
+GameEvents.EconomicStrategyCanActivate
+GameEvents.MilitaryStrategyCanActivate
+GameEvents.PlayerCanAdoptPolicy
+GameEvents.PlayerCanAdoptPolicyBranch
+GameEvents.PlayerCanConstruct
+GameEvents.PlayerCanCreate
+GameEvents.PlayerCanEverResearch
+GameEvents.PlayerCanMaintain
+GameEvents.PlayerCanPrepare
+GameEvents.PlayerCanResearch
+```
+
 #### objective
 
 ```
