@@ -41,6 +41,54 @@
     - Bluish: `3b2459`
     - Greenish: `1d3f37`
 
+#### Create icon from portrait
+
+1. Open portrait in GIMP
+
+1. Measure "face" part of image, e.g. 421 pixels
+
+1. Resize the image
+
+   The face should be 85% of the 212 x 212 image, so it should be about 180 pixels, e.g. if the face is 421 pixels the image needs to be resized 180/421 = 0.427553444 (42.76 percent)
+
+   1. _Image_ > _Scale Image_
+
+1. Cut out a circle with the top of the head at the top
+
+   1. Chose _Ellipse Select_ and hold shift while dragging until you create a 212 x 212 circle
+   1. Centre the circle over the face with the head almost touching the top
+
+1. Draw a black border in the circle
+
+   1. Change the foreground image to black
+      1. Double-click it and select black or use `000000`
+   1. _Edit_ > _Stroke Selection_
+   1. Uncheck _Antialiasing_
+   1. _Line width_ > 6 px > _Stroke_
+
+1. Delete everything outside the selection
+
+   1. _Layer_ > _Transparency_ > _Add Alpha Channel_
+      ⓘ So anything we delete will be transparent
+   1. _Select_ > _Invert_
+   1. Press _Delete_ to delete everything outside the selection
+
+1. Resize image
+
+   1. _Image_ > _Crop to Content_
+   1. _Image_ > _Canvas Size_
+   1. 256 x 256
+   1. Click _Center_ > _Resize_
+   1. _Layer_ > _Layer to Image Size_
+
+1. Export as DDS
+
+   - DDS
+   - Format: _RGBA8_
+   - Compression: _DXT5_
+
+TODO: Add steps for adding background gradient?
+
 ## Game assets
 
 - Extract using Dragon Unpacker
