@@ -2,6 +2,8 @@
 
 - [Mod development](docs/development.md)
 - [Publishing to Steam workshop](docs/publishing.md)
+- [Some of the API I've found](docs/api.md)
+- [Modding game assets](docs/assets.md)
 
 Other resources:
 
