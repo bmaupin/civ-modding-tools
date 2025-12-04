@@ -6,6 +6,7 @@
 - [Modding game assets](docs/assets.md)
 - [UI modding](docs/ui.md)
 - [Modding units](docs/units.md)
+- [Autoplay](docs/autoplay.md)
 
 Other resources:
 
