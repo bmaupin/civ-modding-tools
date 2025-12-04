@@ -6,11 +6,11 @@ Various modding documentation and tools for modding different versions of Sid Me
 
 ## Specific games
 
-- [Alpha Centauri](./alpha-centauri/)
 - [Civilization 4](./civilization-4/)
 - [Civilization 5](./civilization-5/)
 - [Civilization 6](./civilization-6/)
-- [Beyond Earth](./civilization-beyond-earth/)
+- [Beyond Earth](./beyond-earth/)
+- [Alpha Centauri](./alpha-centauri/)
 
 ## General
 
