@@ -41,3 +41,13 @@ local function CheckAutoPlay(playerID)
 end
 GameEvents.PlayerDoTurn.Add(CheckAutoPlay);
 ```
+
+#### Resume autoplay
+
+You can use code like this to resume autoplay if needed:
+
+```lua
+if Game.GetAIAutoPlay() == 0 then
+    Game.SetAIAutoPlay(400 - Game.GetGameTurn(), 0);
+end
+```
