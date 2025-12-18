@@ -2,6 +2,19 @@
 
 ## Development
 
+#### Run the game for development without tracking play time
+
+ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
+
+```
+cd ~/.local/share/Steam/steamapps/common/Sid\ Meier\'s\ Civilization\ Beyond\ Earth
+SteamAppId=480 MESA_LOADER_DRIVER_OVERRIDE=zink LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so ./CivBE
+```
+
+- You can remove `LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so` if you don't want the Steam overlay
+- You can remove `MESA_LOADER_DRIVER_OVERRIDE=zink` if you don't need it; see https://github.com/bmaupin/civ-be-linux-fixes/
+- You can remove `SteamAppId=480` and instead create a file named `steam_appid.txt` that contains the string `480`
+
 #### Set up Lua extension for Visual Studio Code
 
 ⓘ This is recommended as any syntax errors in Lua code can cause Beyond Earth to crash
@@ -98,3 +111,20 @@ instead of
 ```lua
 player:CanAdoptPolicy(GameInfo.Policies["POLICY_KNOWLEDGE_1"].ID)
 ```
+
+#### Add debugging code to Lua file
+
+1. In vscode, do a search and replace
+1. Enable _Use Regular Expression_
+1. Search for:
+   ```
+   function (([a-z]*).*)
+   ```
+1. Replace with:
+   ```
+   function $1
+   print("(UnitUpgradePopup) $2");
+   ```
+   (Replace `UnitUpgradePopup`)
+1. Click _Replace All_
+1. Save file
