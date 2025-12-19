@@ -44,31 +44,26 @@ To reload changes to the mod without exiting Beyond Earth:
 
 1. Make any changes to the mod as needed
 
-1. Delete the mod directory and copy it over again with the new mod content
+1. Quit any in-progress matches (but not Beyond Earth itself)
 
-   ⓘ It's necessary that the mod directory get deleted, otherwise changes won't get picked up. If the mod doesn't show up in the Mods menu, run the command again until the mod shows up in the Mods menu (it may need to be run several times). As best as I can tell, the command can be run at any time before the mod is loaded, even in the Mods menu itself.
+   ⓘ For mods that don't make changes to any art or sound assets, you may be able to change them during a match
 
-   e.g.
-
-   ```
-   rm -rf ~/.local/share/aspyr-media/Sid\ Meier\'s\ Civilization\ Beyond\ Earth/MODS/micro\ beyond\ earth*; ./scripts/install-mod.sh
-   ```
-
-   Or to delete just the current version:
-
-   ```
-   rm -rf ~/.local/share/aspyr-media/Sid\ Meier\'s\ Civilization\ Beyond\ Earth/MODS/micro\ beyond\ earth\ \(v\ 6\)/; ./scripts/install-mod.sh
-   ```
-
-1. Quit any in-progress games (but not Beyond Earth itself)
+1. While in the main menu or _Mods_ menu, delete the mod directory and copy it over again with the new mod content
 1. Go to the _Mods_ menu
 1. Check the mod to enable it
 
    ⓘ The mod should be unchecked to show that it has changed. If the mod was previously unchecked and you're not sure if the mod has been updated, you can check the box to enable the mod, run the command again, and you you should see that the mod is unchecked when it's been updated.
 
-If the above steps don't work, i.e. you delete the mod directory and the mod is still showing up as checked in the Mods menu, this has been observed for mods that are bigger or have a lot of files (not sure which).
+If the mod doesn't seem to be updating:
 
-In that case, go into the _DLC_ menu and unload and reload one of the DLC in order to force the mod to reload the latest changes.
+1. Create an empty file in the MODS directory and then delete the file
+
+   ```
+   touch ~/.local/share/aspyr-media/Sid\ Meier\'s\ Civilization\ Beyond\ Earth/MODS/test
+   rm ~/.local/share/aspyr-media/Sid\ Meier\'s\ Civilization\ Beyond\ Earth/MODS/test
+   ```
+
+1. If that still doesn't work, go into the _DLC_ menu and unload and reload one of the DLC in order to force the mod to reload the latest changes.
 
 ⚠️ Make sure if you're loading a save game to test the mod that you have the same DLC loaded that the save was created with, otherwise Beyond Earth will crash as per https://github.com/bmaupin/civ-be-linux-fixes/?tab=readme-ov-file#the-game-crashes-loading-a-saved-game-with-mods-and-different-dlc
 
