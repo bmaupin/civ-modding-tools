@@ -2,26 +2,6 @@
 
 ## Development
 
-#### Run the game for development without tracking play time
-
-ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
-
-1. Start Steam
-
-1. Open a terminal and run this command:
-
-   ```
-   cd ~/.local/share/Steam/steamapps/common/Sid\ Meier\'s\ Civilization\ Beyond\ Earth
-   SteamAppId=480 MESA_LOADER_DRIVER_OVERRIDE=zink LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so ./CivBE
-   ```
-
-- You can remove `LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so` if you don't want the Steam overlay
-- You can remove `MESA_LOADER_DRIVER_OVERRIDE=zink` if you don't need it; see https://github.com/bmaupin/civ-be-linux-fixes/
-- You can remove `SteamAppId=480` and instead create a file named `steam_appid.txt` that contains the string `480`
-- If you really want to be particular you can replace the game's _Launch Options_ in steam with `exit` to prevent running up play time
-
-⚠️ It has to be run from the command line in order to override the app ID; running it from within the Steam client won't pick up a different app ID from `steam_appid.txt` or `SteamAppId`
-
 #### Set up Lua extension for Visual Studio Code
 
 ⓘ This is recommended as any syntax errors in Lua code can cause Beyond Earth to crash
@@ -73,6 +53,26 @@ If the mod doesn't seem to be updating:
 1. If that still doesn't work, go into the _DLC_ menu and unload and reload one of the DLC in order to force the mod to reload the latest changes.
 
 ⚠️ Make sure if you're loading a save game to test the mod that you have the same DLC loaded that the save was created with, otherwise Beyond Earth will crash as per https://github.com/bmaupin/civ-be-linux-fixes/?tab=readme-ov-file#the-game-crashes-loading-a-saved-game-with-mods-and-different-dlc
+
+#### Run the game for development without tracking play time
+
+ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
+
+1. Start Steam
+
+1. Open a terminal and run this command:
+
+   ```
+   cd ~/.local/share/Steam/steamapps/common/Sid\ Meier\'s\ Civilization\ Beyond\ Earth
+   SteamAppId=480 MESA_LOADER_DRIVER_OVERRIDE=zink LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so ./CivBE
+   ```
+
+- You can remove `LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_32/gameoverlayrenderer.so` if you don't want the Steam overlay
+- You can remove `MESA_LOADER_DRIVER_OVERRIDE=zink` if you don't need it; see https://github.com/bmaupin/civ-be-linux-fixes/
+- You can remove `SteamAppId=480` and instead create a file named `steam_appid.txt` that contains the string `480`
+- If you really want to be particular you can replace the game's _Launch Options_ in steam with `exit` to prevent running up play time
+
+⚠️ It has to be run from the command line in order to override the app ID; running it from within the Steam client won't pick up a different app ID from `steam_appid.txt` or `SteamAppId`
 
 ## Troubleshooting
 
