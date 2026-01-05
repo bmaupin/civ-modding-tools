@@ -12,6 +12,12 @@ https://partner.steamgames.com/doc/features/workshop/implementation
 
    1. If there are any new changes, accept them
 
+1. Go to the mod in the Steam workshop to get the latest version
+
+1. Increment the version in the .modinfo file and build the new mod package file
+
+1. Start Steam
+
 1. Publish a new version of the mod, e.g.
 
    ```
