@@ -24,6 +24,26 @@
 
 The in-game databases are cached in the user directory (e.g. ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Cache) and can be opened with an SQLite browser to browse database structure, run queries for testing, etc.
 
+#### Important files
+
+> [!IMPORTANT]
+>
+> - Data defined under Assets/Configuration/ is for the frontend configuration and must be modified by files listed under `<FrontEndActions>` in the .modinfo file
+> - Data defined under Assets/Gameplay/ is for data used during gameplay and must be modified by files listed under `<InGameActions>` in the .modinfo file
+
+- Base/Assets/Gameplay/Data/Schema/01_GameplaySchema.sql
+  - Primary Gameplay database schema
+  - Useful when modifying the database
+- Base/Assets/Configuration/Data/Schema/AdditionalTables.sql
+  - Database schema for additional queries used in SetupParameters.xml
+- Base/Assets/Configuration/Data/Schema/SetupParameters.sql
+  - Primary Configuration database schema
+- Base/Assets/Configuration/Data/SetupParameters.xml
+  - Game setup parameters
+  - Serves as a reference when adding new options to the game setup screen
+- Base/Assets/Gameplay/Data/GlobalParameters.xml
+  - Global configuration parameters
+
 #### Run the game for development without tracking play time
 
 ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
