@@ -24,6 +24,25 @@
 
 The in-game databases are cached in the user directory (e.g. ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Cache) and can be opened with an SQLite browser to browse database structure, run queries for testing, etc.
 
+#### Run the game for development without tracking play time
+
+ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
+
+1. Start Steam
+
+1. Open a terminal and run this command:
+
+   ```
+   cd ~/.local/share/Steam/steamapps/common/Sid\ Meier\'s\ Civilization\ VI/
+   SteamAppId=480 LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_64/gameoverlayrenderer.so ./Civ6
+   ```
+
+- You can remove `LD_PRELOAD=/home/$USER/.local/share/Steam/ubuntu12_64/gameoverlayrenderer.so` if you don't want the Steam overlay
+- You can remove `SteamAppId=480` and instead create a file named `steam_appid.txt` that contains the string `480`
+- If you really want to be particular you can replace the game's _Launch Options_ in steam with `exit` to prevent running up play time (or just hide it from your library)
+
+⚠️ It has to be run from the command line in order to override the app ID; running it from within the Steam client won't pick up a different app ID from `steam_appid.txt` or `SteamAppId`
+
 ## Troubleshooting
 
 ### Game crashes with no error message
@@ -35,7 +54,6 @@ The in-game databases are cached in the user directory (e.g. ~/.local/share/aspy
    ⓘ They may not show an error if the game crashed
 
 1. Check net_message_debug.log to see what the game was doing just before the crash
-
    - It will show information such as `GameTurnComplete`, which player, etc
 
 1. Undo the most recent changes and see if the game no longer crashes
