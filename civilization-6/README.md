@@ -4,6 +4,7 @@
 - [Mod development](docs/development.md)
 - [Fix for missing Lua.log](docs/lua-log-fix.md)
 - [UI modding](docs/ui.md)
+- [Autoplay](docs/autoplay.md)
 
 Other resources:
 
