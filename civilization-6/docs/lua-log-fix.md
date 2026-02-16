@@ -23,6 +23,7 @@ However, on Linux and Mac, it seems that starting around 2020-08-27, the Lua.log
 Run [lua-log-patcher.sh](../scripts/lua-log-patcher.sh), e.g.
 
 ```
+cd ../scripts
 ./lua-log-patcher.sh ~/.steam/steam/steamapps/common/Sid\ Meier\'s\ Civilization\ VI/Civ6
 ```
 
@@ -59,7 +60,6 @@ Response:
 #### Find the problem
 
 1.  Search the Civ6 binary and game core libraries for `Lua.log`
-
     - No results searching for `Lua.log` but `ua.log` was found; seems like the first letter can get cut off:
 
       ```
@@ -70,21 +70,17 @@ Response:
 1.  Open the binary in Ghidra and analyse
 
 1.  Go to the location of `Lua.log`
-
     1. _Navigation_ > _Go To_ > `file(0xfile(0x4278471))
 
 1.  Look for usages of that string in Ghidra
-
     1. Find where Lua.log actually starts (the address was for `ua.log`)
 
     1. Right-click the actual address (0x4278470) > _References_ > _Show References To Address_
-
        - Found usages in these functions:
          - LuaSystem::LuaScriptSystem::Log
          - LuaSystem::LuaScriptSystem::LogAt
 
 1.  Open binary with gdb
-
     1. Set breakpoints on those functions
 
        ```
@@ -96,11 +92,9 @@ Response:
        ```
 
 1.  Debug to see when the log is created
-
     - Seems to be created by `LuaSystem::LuaScriptSystem::Log` (which calls other functions)
 
 1.  Start debugging to determine why the log isn't being created
-
     - `Log` calls `Platform::LogEvent` to log to Lua.log
     - There's an if statement before this call that checks the value of RDI+8
     - When Lua.log was working, this value was 1
@@ -156,17 +150,14 @@ Response:
 #### Create a patch
 
 1. Get the actual function name
-
    - I just grabbed this from the Ghidra Listing at the top of the function:
 
      `_ZN9LuaSystem15LuaScriptSystemC1EPFPvS1_S1_mmEii`
 
 1. Get the address
-
    - In Ghidra you can just hover over the address and write down _Byte Source Offset_
 
    - Without Ghidra:
-
      1. Get the virtual address
 
         ```
@@ -198,7 +189,6 @@ Response:
         ```
 
 1. Replace `00` with `01`
-
    - e.g. using a hex editor; before:
 
      ```
