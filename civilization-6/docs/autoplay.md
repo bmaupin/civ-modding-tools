@@ -14,6 +14,8 @@
 
 1. Create a file in your mod (e.g. `Scripts/Autoplay.lua`) with this content:
 
+   ⚠️ This seems to mess up the UI; the civics tree doesn't show when auto play is done. Maybe we should start auto play at a different time, e.g. on the first turn?
+
    ```lua
    function StartAutoplay()
        AutoplayManager.SetTurns(100);

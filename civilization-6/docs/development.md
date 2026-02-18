@@ -44,6 +44,11 @@ The in-game databases are cached in the user directory (e.g. ~/.local/share/aspy
 - Base/Assets/Gameplay/Data/GlobalParameters.xml
   - Global configuration parameters
 
+#### Reveal the map
+
+1. Press `~` to open the console
+1. Type `reveal all`
+
 #### Run the game for development without tracking play time
 
 ⓘ This will run the game with the test Steam app "Spacewar" if you wish to avoid tracking mod time as play time
