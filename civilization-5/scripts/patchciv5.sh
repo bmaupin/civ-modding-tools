@@ -26,9 +26,9 @@ fi
 
 apply_linux_fixes() {
     echo "Deleting intro videos"
-    rm -f "${game_directory}/steamassets/assets/dlc/expansion/civ5xp_opening_movie*"
-    rm -f "${game_directory}/steamassets/assets/dlc/expansion2/civ5xp2_opening_movie*"
-    rm -f "${game_directory}/steamassets/civ5_opening_movie*"
+    rm -f "${game_directory}/steamassets/assets/dlc/expansion"/civ5xp_opening_movie*
+    rm -f "${game_directory}/steamassets/assets/dlc/expansion2"/civ5xp2_opening_movie*
+    rm -f "${game_directory}/steamassets"/civ5_opening_movie*
 
     echo "Enabling achievements with mods"
     sed -i 's/SELECT ModID from Mods where Activated = 1/SELECT ModID from Mods where Activated = 2/' "${game_directory}/Civ5XP"
@@ -54,9 +54,9 @@ apply_linux_fixes() {
 # TODO: All this needs to be tested
 apply_windows_fixes() {
     echo "Deleting intro logo videos"
-    rm -f "${game_directory}/Assets/DLC/Expansion/Civ5XP_Opening_Movie*"
-    rm -f "${game_directory}/Assets/DLC/Expansion2/Civ5XP2_Opening_Movie*"
-    rm -f "${game_directory}/Civ5_Opening_Movie*"
+    rm -f "${game_directory}/Assets/DLC/Expansion"/Civ5XP_Opening_Movie*
+    rm -f "${game_directory}/Assets/DLC/Expansion2"/Civ5XP2_Opening_Movie*
+    rm -f "${game_directory}"/Civ5_Opening_Movie*
 
     # TODO: test whether the sed patch works in Proton
     # TODO: could we fetch and run the script?
