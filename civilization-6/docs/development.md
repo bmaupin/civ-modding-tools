@@ -55,6 +55,13 @@ The in-game databases are cached in the user directory (e.g. ~/.local/share/aspy
 
 1. Start Steam
 
+1. (Optional) Go offline
+
+   ⓘ Without this, time tracked in the test Spacewar app will show on your account
+
+   👉 You may be unable to test multiplayer mods when offline, but you can still test them in hotseat mode
+   1. _Steam_ > _Go Offline_
+
 1. Open a terminal and run this command:
 
    ```
@@ -73,6 +80,9 @@ The in-game databases are cached in the user directory (e.g. ~/.local/share/aspy
 ### Game crashes with no error message
 
 ⚠️ On Linux and Mac, it appears that lua.log is not generated. See [Fix for missing Lua.log](./lua-log-fix.md).
+
+1. (Optional) Start the game without tracking play time (see above)
+   - The game may crash a lot while the crash is debugged, this will avoid tracking tons of play time sessions
 
 1. Check Lua.log and Modding.log
 

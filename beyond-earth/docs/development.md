@@ -60,6 +60,11 @@ If the mod doesn't seem to be updating:
 
 1. Start Steam
 
+1. (Optional) Go offline
+
+   ⓘ Without this, time tracked in the test Spacewar app will show on your account
+   1. _Steam_ > _Go Offline_
+
 1. Open a terminal and run this command:
 
    ```
