@@ -2,6 +2,7 @@
 
 - [Mod development](docs/development.md)
 - [Publishing to Steam workshop](docs/publishing.md)
+- [Make the game colours more vibrant](docs/vibrance.md)
 
 #### Apply quality-of-life tweaks
 
