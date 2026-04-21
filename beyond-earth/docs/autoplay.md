@@ -14,6 +14,12 @@ end
 Events.SequenceGameInitComplete.Add(AutoPlay);
 ```
 
+#### Speed up autoplay
+
+Move the screen to the top of the map so it doesn't have to render all the actions
+
+⚠️ Don't use the debug panel to hide graphical elements when using autoplay as this will cause the game to crash and doesn't provide much of a speedup beyond moving the screen to the top of the map
+
 #### Stop autoplay early
 
 If you wish to stop the autoplay before it's finished:
@@ -51,3 +57,10 @@ if Game.GetAIAutoPlay() == 0 then
     Game.SetAIAutoPlay(400 - Game.GetGameTurn(), 0);
 end
 ```
+
+#### Known issues
+
+- The game may stop autoplay in certain situations (e.g. a unit was disbanded)???
+- Don't use the debug panel to hide UI elements during autoplay (to speed it up); it will cause the game to crash (and doesn't seem to give much of a speedup over just moving the screen to the top of the map)
+- There may be other graphical quirks or inconsistencies when playing with autoplay
+  - The UI may not show the current tech being researched
