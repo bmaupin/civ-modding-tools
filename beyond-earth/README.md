@@ -7,6 +7,7 @@
 - [UI modding](docs/ui.md)
 - [Modding units](docs/units.md)
 - [Autoplay](docs/autoplay.md)
+- [Affinities](docs/affinities.md)
 
 Other resources:
 
