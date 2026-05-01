@@ -26,7 +26,7 @@ What doesn't work:
 - Disabling the other monitor in the display settings works, but if you re-enable it while the game is running, the game display (or mouse control) messes up and the game becomes unplayable
 - Setting the monitor you wish to run the game on as the primary display will cause the game to display on that monitor, but if you click away from the game on the other monitor, the game will no longer display when you go back to it.
 
-#### Load Game defaults to home folder
+#### _Load Game_ dialogue often defaults to user's home directory
 
 Need to browse to ~/.steam/steam/steamapps/common/Sid Meier's Alpha Centauri/saves
 
@@ -39,21 +39,28 @@ Need to browse to ~/.steam/steam/steamapps/common/Sid Meier's Alpha Centauri/sav
 One of the best way to make the game go quicker is to use keyboard shortcuts.
 
 - Enter: ending the turn, choosing the default selection for most popups
+- Shift+arrow keys: move the map
 - Esc: close popups (e.g. research complete, base founded), go back during setup
-- Shift-A: automate (formers, etc)
+- Shift+A: automate (formers, etc)
   - When [Thinker mod](#thinker-mod) is installed, this can be used to automate any unit! Colony pods, military units, etc.
 - /: explore automatically (scouts, etc)
+- Alt+T: Thinker dialogue (if Thinker is used)
+  - Shows the game play time and allows changing some Thinker options
 
 #### Game options
 
 1. When starting a game, choose _Customize Rules_
 
 1. As desired, enable any of these options for potentially faster gameplay:
-
    - _One for All_ (Allow cooperative victory, this is enabled by default)
    - _Do or Die_ (Don't restart eliminated players)
    - _Blind Research_ (Select an area of research instead of a specific tech)
    - _Time Warp_ (Accelerated start, gives extra units and bases on the first turn)
+
+#### Build queue templates
+
+- When creating a build queue, right-click to save to a template
+- If using Thinker, it will automatically apply _Template 1_ to newly built or conquered bases
 
 ## Map sizes
 
@@ -115,7 +122,7 @@ See [https://github.com/induktio/thinker/](https://github.com/induktio/thinker/)
 If playing on Linux using Proton, use these launch options to start the game with the Thinker mod:
 
 ```
-/home/$USER/.local/share/Steam/ubuntu12_32/reaper SteamLaunch AppId=2204130 -- /home/$USER/.local/share/Steam/ubuntu12_32/steam-launch-wrapper -- "/home/$USER/.local/share/Steam/steamapps/common/SteamLinuxRuntime_sniper"/_v2-entry-point --verb=waitforexitandrun -- "/home/$USER/.local/share/Steam/steamapps/common/Proton 9.0 (Beta)"/proton waitforexitandrun "/home/$USER/.local/share/Steam/steamapps/common/Sid Meier's Alpha Centauri/thinker.exe" -PromptForGamePath # %command%
+eval $(echo "%command%" | sed "s/terran.*.exe/thinker.exe/")
 ```
 
 #### Configure
@@ -132,9 +139,17 @@ window_height=768
 
 To lower sea levels so that there's more land to make space for more factions on smaller maps:
 
-```
-world_sea_levels=30,40,50
-```
+1. Make sure the new world builder is enabled in thinker.ini (should be on by default):
+
+   ```
+   new_world_builder=1
+   ```
+
+1. Adjust the sea levels as desired, e.g.
+
+   ```
+   world_sea_levels=30,40,50
+   ```
 
 ⓘ Each of the values corresponds to the options in the _Select Ocean Coverage_ setting when starting a new game
 
@@ -152,7 +167,7 @@ smac_only=1
 
 #### Map sizes
 
-Modify `smac_mod/alphax.txt` or `alphax.txt`:
+Modify `smac_mod/alphax.txt` (for SMAC in SMACX) or `alphax.txt`:
 
 ```
 #WORLDSIZE
