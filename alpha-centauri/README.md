@@ -167,6 +167,8 @@ smac_only=1
 
 #### Map sizes
 
+ⓘ Thinker's map generation seems to balance the number of factions well out of the box; smaller maps seem to have enough space for 2-3 bases (cities) per faction
+
 Modify `smac_mod/alphax.txt` (for SMAC in SMACX) or `alphax.txt`:
 
 ```
