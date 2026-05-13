@@ -1,5 +1,7 @@
 # Autoplay
 
+⚠️ Autoplay has a number of issues; see below for more information
+
 ⓘ This will automatically play the game up to a certain number of turns, which is very useful when modding as play testing can be very time consuming.
 
 #### Start autoplay
@@ -61,6 +63,8 @@ end
 #### Known issues
 
 - The game may stop autoplay in certain situations (e.g. a unit was disbanded)???
+- Stopping autoplay based on certain events or conditions being met doesn't always work
 - Don't use the debug panel to hide UI elements during autoplay (to speed it up); it will cause the game to crash (and doesn't seem to give much of a speedup over just moving the screen to the top of the map)
 - There may be other graphical quirks or inconsistencies when playing with autoplay
   - The UI may not show the current tech being researched
+  - Objective popups may appear to be duplicated
