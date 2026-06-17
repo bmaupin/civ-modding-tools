@@ -1,6 +1,10 @@
-# AI Flavours
+# AI characteristics
 
-#### Overview
+#### Biases (`Leader_MajorCivApproachBiases`)
+
+Similar to flavours
+
+#### Flavours (`Leader_Flavors`)
 
 Reference: https://forums.civfanatics.com/threads/when-will-the-ai-use-atomic-bombs.545859/#post-13765659
 

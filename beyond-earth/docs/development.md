@@ -83,6 +83,8 @@ If the mod doesn't seem to be updating:
 
 #### Game crashes while developing a mod
 
+⚠️ A common cause of this is deleting something from the database. In most cases it's best to avoid this.
+
 If this happens, the most common error is a problem with your mod.
 
 1. Check the logs, especially Lua.log if you're writing Lua
