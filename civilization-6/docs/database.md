@@ -1,5 +1,33 @@
 # Database
 
+## Deleting items from the database
+
+1. In the mod, delete the item's type, e.g.
+
+   ```sql
+   DELETE FROM Types WHERE Type = 'UNIT_BUILDER';
+   ```
+
+1. In `01_gameplayschema.sql`, find the primary table where the type is used, e.g.
+
+   ```sql
+   CREATE TABLE "Units" (
+     -- ...
+     FOREIGN KEY (UnitType) REFERENCES Types(Type) ON DELETE CASCADE ON UPDATE CASCADE,
+   ```
+
+1. In `01_gameplayschema.sql` go through the database to make sure all references to that table have `ON DELETE CASCADE ON UPDATE CASCADE`, e.g.
+
+   ```sql
+   FOREIGN KEY (UnitType) REFERENCES Units(UnitType) ON DELETE CASCADE ON UPDATE CASCADE,
+   ```
+
+1. If there are any references that don't do cascade delete, decide if the rows referencing the deleted item need to be deleted or if they can be ignored, e.g.
+
+   ```sql
+   FOREIGN KEY (EmbarkUnitType) REFERENCES Units(UnitType) ON DELETE SET DEFAULT ON UPDATE SET DEFAULT,
+   ```
+
 ## ConfigurationUpdates
 
 This allows overriding a configuration default for a rule set, for example:
