@@ -7,7 +7,7 @@
 
 When in a game, press Ctrl + `~` to open the debug panel
 
-#### Reveal map
+#### Reveal the map
 
 In game, press Ctrl+Z to reveal the map
 

@@ -8,6 +8,7 @@
 - [Modding units](docs/units.md)
 - [Autoplay](docs/autoplay.md)
 - [Affinities](docs/affinities.md)
+- [Debugging](docs/debugging.md)
 
 Other resources:
 
