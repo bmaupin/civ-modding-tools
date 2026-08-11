@@ -2,6 +2,15 @@
 
 ## Deleting items from the database
 
+1. First, make sure no Lua scrips have the item hard-coded, e.g.
+
+   ```
+   cd ~/.local/share/Steam/steamapps/common/"Sid Meier's Civilization VI"
+   find . -iname "*.lua" -exec grep -oP 'DISTRICT_[A-Z_]+' "{}" \;
+   ```
+
+   ⚠️ If you skip this step you will likely cause the game to crash
+
 1. In the mod, delete the item's type, e.g.
 
    ```sql
