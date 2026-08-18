@@ -37,6 +37,28 @@ cp blank.bk2 "${movie_directory}/logo_2kfiraxis.bk2"
 
 
 
+echo "Allow multiplayer scenarios in singleplayer"
+base_scenario_directory="${game_directory}/steamassets/base/assets/scenarios"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/ancientrivalsscenario/ancientrivalsscenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/ancientrivalsscenario/ancientrivalsscenario.modinfo"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/coldwarscenario/coldwarscenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/coldwarscenario/coldwarscenario.modinfo"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/napoleonscenario/napoleonscenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/napoleonscenario/napoleonscenario.modinfo"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/religiouscombatscenario/religiouscombatscenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${base_scenario_directory}/religiouscombatscenario/religiouscombatscenario.modinfo"
+
+dlc_scenario_directory="${game_directory}/steamassets/dlc"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/civroyalescenario/civroyalescenario.modinfo"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/civroyalescenario/data/civroyalescenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/piratesscenario/data/piratesscenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/piratesscenario/piratesscenario.modinfo"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/warmachinescenario/data/warmachinescenario_config.xml"
+sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>1<\/SupportsSinglePlayer>/' "${dlc_scenario_directory}/warmachinescenario/warmachinescenario.modinfo"
+
+
+
+
 exit
 
 # TODO
