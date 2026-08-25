@@ -62,27 +62,4 @@ sed -i 's/<SupportsSinglePlayer>0<\/SupportsSinglePlayer>/<SupportsSinglePlayer>
 exit
 
 # TODO
-# Increased zoom in
-# Change this file: /home/${USER}/.local/share/Steam/steamapps/common/Sid Meier's Civilization VI/steamassets/base/artdefs/camera.artdef
-
-'
-						<Element>
-							<m_Fields>
-								<m_Values>
-									<Element class="AssetObjects..FloatValue">
-										<m_fValue>0.000000</m_fValue>
-										<m_ParamName text="Time"/>
-									</Element>
-									<Element class="AssetObjects..FloatValue">
-                    <!-- change this next line for the first instance of HeightCurve1 -->
-										<!-- <m_fValue>120.000000</m_fValue> -->
-										<m_fValue>30.000000</m_fValue>
-										<m_ParamName text="Height"/>
-									</Element>
-								</m_Values>
-							</m_Fields>
-							<m_ChildCollections/>
-							<m_Name text="HeightCurve1"/>
-							<m_AppendMergedParameterCollections>false</m_AppendMergedParameterCollections>
-						</Element>
-'
+# Lua log patch
