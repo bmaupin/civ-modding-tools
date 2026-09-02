@@ -20,6 +20,8 @@
 1. Create or open a new map in World Builder, or start a new match in Civ 6
 1. When you exit back to the main menu, the game will load any changes to mods
 
+👉 You can also save the game and reload without going to the main menu, but it won't pick up new files, only changes to existing files
+
 #### In-game databases
 
 The in-game databases are cached in the user directory (e.g. ~/.local/share/aspyr-media/Sid Meier's Civilization VI/Cache) and can be opened with an SQLite browser to browse database structure, run queries for testing, etc.
@@ -86,7 +88,12 @@ The in-game databases are cached in the user directory (e.g. ~/.local/share/aspy
 1. Check net_message_debug.log to see what the game was doing just before the crash
    - It will show information such as `GameTurnComplete`, which player, etc
 
+1. In the logs directory, check the most recent logs for any useful information
+
 1. Undo the most recent changes and see if the game no longer crashes
+
+1. If you still can't figure out the issues, use [autoplay](./autoplay.md) to systematically test changes
+   - For example, you can disable changes one-by-one and test games to figure out which change is causing the crash
 
 1. If you still can't figure out the issue, do a git bisect to figure out when the crash started
 
