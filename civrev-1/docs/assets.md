@@ -23,7 +23,7 @@
 #### .gr2
 
 - 3D models and skeletons stored in the proprietary Granny3D format
-- Also used by Civ 5?
+- Seem to be the same format as .gr2 files used by Civ 5, except the CivRev .gr2 files are big-endian (Civ 5 are little-endian)
 
 #### .nxb
 
